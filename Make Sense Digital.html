@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P6JV5J3T');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consultoría boutique en innovación y tecnología. Make Sense digitaliza tu estrategia, acompaña MVPs y optimiza productos para crecer con certeza.">
+    <meta property="og:title" content="Make Sense Digital | Innovation & Tech Consultancy">
+    <meta property="og:description" content="Te guiamos para tomar decisiones tecnológicas seguras: ideación, MVP, optimización y trainings a medida.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="Logos MK Sense/logo_full.png">
+    <meta property="og:url" content="https://makesensedigital.example"> <!-- Replace with final domain -->
+    <meta name="theme-color" content="#000000">
+    <title>Make Sense Digital | Innovation & Tech Consultancy</title>
+    
+    <link rel="icon" href="Logos MK Sense/logo_monocromo_oscuro.png" type="image/png">
+    <link rel="apple-touch-icon" href="Logos MK Sense/logo_monocromo_oscuro.png">
+    <link rel="preload" as="image" href="Logos MK Sense/logo_full.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-black: #000000;
+            --accent-yellow: #EED464; /* RGB(238,212,100) */
+            --accent-yellow-dark: #d6b93f;
+            --text-grey: #4a4a4a;
+            --muted-grey: #7a7a7a;
+            --light-bg: #f4f4f4;
+            --white: #ffffff;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --hover-shadow: 0 15px 35px rgba(238, 212, 100, 0.2);
+            --glass-bg: rgba(255,255,255,0.07);
+            --hero-gradient: radial-gradient(circle at top left, rgba(238,212,100,0.15), transparent 60%);
+            
+            /* Typography */
+            --font-title: 'Poppins', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-grey);
+            line-height: 1.7;
+            background-color: #fcfcfc;
+            background-image: linear-gradient(180deg, rgba(238,212,100,0.04), rgba(0,0,0,0));
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-title);
+            color: var(--primary-black);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s ease;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        .lang-switch:focus-visible {
+            outline: 2px dashed var(--accent-yellow);
+            outline-offset: 4px;
+        }
+
+        ul { list-style: none; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* --- ANIMATIONS (Scroll Reveal) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-yellow);
+            color: var(--primary-black);
+            padding: 15px 40px;
+            font-family: var(--font-title);
+            font-weight: 600;
+            border-radius: 50px; /* Rounded Pill Shape */
+            border: 2px solid var(--accent-yellow);
+            box-shadow: 0 5px 15px rgba(238, 212, 100, 0.4);
+            transform: translateY(0);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            border: 2px solid var(--accent-yellow);
+            color: var(--accent-yellow);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(238, 212, 100, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid rgba(255,255,255,0.25);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-yellow);
+            color: var(--accent-yellow);
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        nav a {
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-yellow);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .lang-switch {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.8rem;
+            background: var(--primary-black);
+            color: var(--accent-yellow);
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: transform 0.2s;
+        }
+        
+        .lang-switch:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background-color: var(--primary-black);
+            background-image: var(--hero-gradient);
+            color: var(--white);
+            padding: 140px 0 160px 0;
+            text-align: left;
+            position: relative;
+            /* Curved bottom for less "square" look */
+            border-bottom-left-radius: 50px; 
+            border-bottom-right-radius: 50px;
+            overflow: hidden;
+        }
+
+        /* Abstract background decoration */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(238,212,100,0.1) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero-text {
+            max-width: 640px;
+        }
+
+        .hero h1 {
+            color: var(--accent-yellow);
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 750px;
+            margin: 0 0 30px 0;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .hero-eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            color: var(--muted-grey);
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .hero-pill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .hero-pill {
+            background: rgba(255,255,255,0.08);
+            color: var(--white);
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .hero-card {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 35px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+            backdrop-filter: blur(18px);
+        }
+
+        .hero-card h3 {
+            color: var(--accent-yellow);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .hero-card p {
+            margin-bottom: 25px;
+            font-size: 1rem;
+            opacity: 0.85;
+        }
+
+        .hero-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(120px, 1fr));
+            gap: 20px;
+        }
+
+        .metric {
+            padding: 15px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        .metric-label {
+            display: block;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* --- ABOUT --- */
+        .about {
+            padding: 100px 0;
+        }
+        
+        .about-card {
+            background: var(--white);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            max-width: 900px;
+            margin: -80px auto 0 auto; /* Overlap effect */
+            position: relative;
+            z-index: 2;
+        }
+
+        .about h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+        }
+
+        .about-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .highlight-card {
+            padding: 20px;
+            border-radius: 18px;
+            border: 1px solid rgba(0,0,0,0.05);
+            background: #fafafa;
+        }
+
+        .highlight-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-black);
+        }
+
+        .highlight-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--muted-grey);
+        }
+
+        /* --- SERVICES --- */
+        .services {
+            padding: 80px 0 120px 0;
+            background-color: var(--light-bg);
+            /* Soft curve separator */
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%); 
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+        
+        .section-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--muted-grey);
+            margin-bottom: 12px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.8rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-yellow);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .section-description {
+            max-width: 680px;
+            margin: 15px auto 0;
+            color: var(--muted-grey);
+            font-size: 1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 20px; /* Round corners */
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 0 solid var(--accent-yellow);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--hover-shadow);
+            border-top: 5px solid var(--accent-yellow);
+        }
+
+        .service-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #f0f0f0;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            z-index: 0;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- CTA BANNER --- */
+        .cta-banner {
+            padding: 90px 0;
+            background: #0d0d0d;
+            color: var(--white);
+        }
+
+        .cta-banner .cta-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .cta-banner h2 {
+            color: var(--accent-yellow);
+            margin-bottom: 15px;
+        }
+
+        .cta-banner p {
+            color: rgba(255,255,255,0.82);
+            max-width: 620px;
+        }
+
+
+        /* --- FAQS --- */
+        .faqs {
+            padding: 100px 0;
+        }
+
+        .faq-item {
+            max-width: 800px;
+            margin: 0 auto 25px auto;
+            border-radius: 15px;
+            background: var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .faq-question {
+            padding: 25px;
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            text-align: left;
+            color: inherit;
+        }
+
+        .faq-question:hover {
+            background-color: #fafafa;
+        }
+
+        .icon-plus {
+            font-size: 1.5rem;
+            color: var(--accent-yellow);
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 25px;
+            opacity: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px; /* Arbitrary large height */
+            padding-bottom: 25px;
+            opacity: 1;
+        }
+        
+        .faq-item.active .icon-plus {
+            transform: rotate(45deg);
+        }
+        
+        .faq-item.active {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-color: transparent;
+        }
+
+        /* --- CONTACT --- */
+        .contact {
+            padding: 100px 0;
+            background-color: var(--primary-black);
+            color: var(--white);
+            text-align: center;
+            border-top-left-radius: 60px;
+            border-top-right-radius: 60px;
+        }
+
+        .contact h2 {
+            color: var(--accent-yellow);
+            margin-bottom: 15px;
+        }
+        
+        .contact p {
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .contact-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .contact-card {
+            background: rgba(255,255,255,0.05);
+            padding: 30px 50px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .contact-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-5px);
+        }
+
+        .contact-label {
+            display: block;
+            color: var(--accent-yellow);
+            font-weight: 700;
+            font-family: var(--font-title);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .contact-value {
+            font-size: 1.1rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #0a0a0a; /* Slightly lighter than black */
+            color: #555;
+            text-align: center;
+            padding: 40px 0;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .hero {
+                padding: 100px 0;
+                border-radius: 0 0 30px 30px;
+                text-align: center;
+            }
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero-pill-list {
+                justify-content: center;
+            }
+            .cta-group {
+                justify-content: center;
+            }
+            .hero-card {
+                text-align: center;
+            }
+            .hero-metrics {
+                grid-template-columns: repeat(2, minmax(120px, 1fr));
+            }
+            .about-card {
+                padding: 30px 20px;
+                margin-top: -50px;
+            }
+            .about-highlights {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+            .cta-banner .cta-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .contact-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P6JV5J3T" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header>
+        <div class="container nav-container">
+            <a href="#" aria-label="Make Sense Digital">
+                <img src="Logos MK Sense/logo_full.png" alt="Logo de Make Sense Digital" class="logo-img" width="180" height="52">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#home" data-i18n="nav_home">Inicio</a></li>
+                    <li><a href="#services" data-i18n="nav_services">Servicios</a></li>
+                    <li><a href="#faqs" data-i18n="nav_faqs">FAQs</a></li>
+                    <li><a href="#contact" data-i18n="nav_contact">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="lang-switch" onclick="toggleLanguage()">ES / EN</div>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <p class="hero-eyebrow reveal" data-i18n="hero_eyebrow">Consultoría boutique</p>
+                <h1 class="reveal" data-i18n="hero_title">La Tranquilidad Digital que Necesitas</h1>
+                <p class="reveal" data-i18n="hero_subtitle">¿Sientes que el futuro de tu negocio pasa por lo digital, pero la frustración de tomar una mala decisión te paraliza? Tienes derecho a la certeza digital.</p>
+                <ul class="hero-pill-list reveal">
+                    <li class="hero-pill" data-i18n="hero_pill1">Diagnóstico integral</li>
+                    <li class="hero-pill" data-i18n="hero_pill2">Roadmap accionable</li>
+                    <li class="hero-pill" data-i18n="hero_pill3">Entrega de producto</li>
+                    <li class="hero-pill" data-i18n="hero_pill4">Equipo senior on-demand</li>
+                </ul>
+                <div class="cta-group reveal">
+                    <a href="#co-creamos" class="btn" data-i18n="cta_button">Agendar Charla Gratuita</a>
+                    <a href="#services" class="btn btn-secondary" data-i18n="cta_secondary">Explorar servicios</a>
+                </div>
+            </div>
+            <div class="hero-card reveal">
+                <h3 data-i18n="hero_card_title">Partner Digital End-to-End</h3>
+                <p data-i18n="hero_card_copy">Convertimos la complejidad tecnológica en decisiones claras con impacto en negocio.</p>
+                <div class="hero-metrics">
+                    <div class="metric">
+                        <span class="metric-value">+120</span>
+                        <span class="metric-label" data-i18n="metric1_label">Sprints alineados</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value">92%</span>
+                        <span class="metric-label" data-i18n="metric2_label">Roadmaps on-time</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value">15</span>
+                        <span class="metric-label" data-i18n="metric3_label">Mercados atendidos</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value">24/7</span>
+                        <span class="metric-label" data-i18n="metric4_label">Soporte estratégico</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-card reveal">
+                <h2 data-i18n="about_title">Tu Socio Estratégico</h2>
+                <p data-i18n="about_p1">
+                    MS Consulting es tu socio estratégico. Te acompañamos en cada decisión, traducimos la complejidad técnica a lenguaje de negocio y te aseguramos que tus inversiones digitales te acerquen a tus objetivos.
+                </p>
+                <br>
+                <p data-i18n="about_p2">
+                    Somos profesionales full-time que reservamos parte de nuestro tiempo para apoyarte bajo una economía circular del conocimiento: pagas por la certeza de una experiencia boutique, no por nuestra curva de aprendizaje.
+                </p>
+                <div class="about-highlights">
+                    <div class="highlight-card">
+                        <span class="highlight-number">+15</span>
+                        <span class="highlight-label" data-i18n="about_hl1">Industrias intervenidas</span>
+                    </div>
+                    <div class="highlight-card">
+                        <span class="highlight-number">8/10</span>
+                        <span class="highlight-label" data-i18n="about_hl2">Clientes por referidos</span>
+                    </div>
+                    <div class="highlight-card">
+                        <span class="highlight-number">3</span>
+                        <span class="highlight-label" data-i18n="about_hl3">Modelos de engagement flexibles</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag" data-i18n="services_tag">Donde agregamos valor</span>
+                <h2 data-i18n="services_title">Nuestros Servicios</h2>
+                <p class="section-description" data-i18n="services_desc">Diagnóstico estratégico, ejecución rigurosa y optimización continua para asegurar que cada inversión digital tenga retorno medible.</p>
+            </div>
+            <div class="services-grid">
+                
+                <div class="service-card reveal">
+                    <span class="service-number">01</span>
+                    <h3 data-i18n="serv1_title">Ideation & Planificación</h3>
+                    <p data-i18n="serv1_p1">Bajamos tu idea a tierra de forma realista. Evaluamos potencial y factibilidad técnica para evitar desperdicio de presupuesto.</p>
+                    <p data-i18n="serv1_p2">Definimos el MVP (Mínimo Producto Viable) con un plan de trabajo claro, ideal para equipos que necesitan visión experta.</p>
+                </div>
+
+                <div class="service-card reveal">
+                    <span class="service-number">02</span>
+                    <h3 data-i18n="serv2_title">MVP: Ejecución Acompañada</h3>
+                    <p data-i18n="serv2_p1">Aportamos la experiencia técnica para gestionar la entrega de tu software en tiempo y forma, minimizando riesgos de fracaso.</p>
+                    <p data-i18n="serv2_p2">Evita el agotamiento de tu equipo y el estancamiento por incumplimiento de deadlines mediante caminos probados.</p>
+                </div>
+
+                <div class="service-card reveal">
+                    <span class="service-number">03</span>
+                    <h3 data-i18n="serv3_title">GPS: Optimización</h3>
+                    <p data-i18n="serv3_p1">Si tu producto no rinde como esperabas, analizamos tu operación y redefinimos los pasos estratégicos.</p>
+                    <p data-i18n="serv3_p2">Convertimos tu tecnología en una ventaja competitiva real alineada a tu visión de negocio.</p>
+                </div>
+
+                <div class="service-card reveal">
+                    <span class="service-number">04</span>
+                    <h3 data-i18n="serv4_title">Trainings</h3>
+                    <p data-i18n="serv4_p1">Talleres especializados en brechas profesionales clave: Behind Ecommerce, Lean Startup y Software Partner.</p>
+                    <p data-i18n="serv4_p2">Soluciones tangibles e inmediatas para elevar el nivel técnico de tu equipo interno.</p>
+                </div>
+
+                <div class="service-card reveal" style="border-top-color: var(--primary-black);">
+                    <span class="service-number" style="color:#ddd;">05</span>
+                    <h3 data-i18n="serv5_title">MS Exchange</h3>
+                    <p data-i18n="serv5_p1">Tu puerta de entrada: una charla de una hora, <strong>gratis</strong>, para entender si somos el socio que necesitas.</p>
+                    <p data-i18n="serv5_p2">Solo trae tu problema definido en una oración y los hitos de cómo llegaste ahí. Nosotros trazamos el camino.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="co-creamos" class="cta-banner">
+        <div class="container">
+            <div class="cta-content reveal">
+                <div>
+                    <span class="section-tag" data-i18n="cta_tag">Co-creamos contigo</span>
+                    <h2 data-i18n="cta_banner_title">Ponemos en movimiento tus ideas</h2>
+                    <p data-i18n="cta_banner_copy">Comenzamos con un sprint de descubrimiento ágil para auditar tu stack, entender al equipo y definir el mayor quick win antes de invertir en desarrollo.</p>
+                </div>
+                <a class="btn" href="https://calendly.com/juan-torresel?hide_landing_page_details=1&hide_gdpr_banner=1" target="_blank" rel="noopener" data-i18n="cta_banner_button">Reservar 30'</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="faqs" class="faqs">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 data-i18n="faq_title">Preguntas Frecuentes</h2>
+            </div>
+            
+            <div class="faq-item reveal">
+                <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-1">
+                    <span data-i18n="faq1_q">"No sé por dónde empezar ni cuánto me costará."</span>
+                    <span class="icon-plus" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-1" role="region" aria-hidden="true">
+                    <p data-i18n="faq1_a">Eliminamos esa incertidumbre bajando la idea a tierra, evaluando factibilidad y definiendo un plan MVP claro para cuidar tu presupuesto.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-2">
+                    <span data-i18n="faq2_q">"Tengo el plan, pero temo que no se entregue a tiempo."</span>
+                    <span class="icon-plus" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-2" role="region" aria-hidden="true">
+                    <p data-i18n="faq2_a">Brindamos gestión técnica experta para garantizar entregas en tiempo y forma, evitando el "burnout" del equipo y retrasos comunes.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-3">
+                    <span data-i18n="faq3_q">"Mi producto ya está, pero no funciona bien."</span>
+                    <span class="icon-plus" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-3" role="region" aria-hidden="true">
+                    <p data-i18n="faq3_a">Actuamos como GPS: analizamos la operación actual y reorientamos la estrategia para que la tecnología genere resultados de negocio reales.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="reveal" data-i18n="contact_title">Contacto</h2>
+            <div class="contact-container">
+                <a href="https://www.linkedin.com/company/make-sense-digital/" target="_blank" class="contact-card">
+                    <span class="contact-label" data-i18n="lbl_linkedin">LinkedIn</span>
+                    <span class="contact-value">Make Sense Digital</span>
+                </a>
+
+                <a href="mailto:contacto@makesense.com" class="contact-card">
+                    <span class="contact-label" data-i18n="lbl_email">Email</span>
+                    <span class="contact-value">contacto@makesense.com</span>
+                </a>
+
+                <a href="https://instagram.com/makesense.digital" target="_blank" class="contact-card">
+                    <span class="contact-label" data-i18n="lbl_social">Instagram</span>
+                    <span class="contact-value">@makesense.digital</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 MakeSense Consulting. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. FAQ Logic ---
+        function toggleFaq(button) {
+            const parent = button.closest('.faq-item');
+            const answerId = button.getAttribute('aria-controls');
+            const answer = document.getElementById(answerId);
+            const willOpen = !parent.classList.contains('active');
+            parent.classList.toggle('active');
+            button.setAttribute('aria-expanded', willOpen.toString());
+            if (answer) answer.setAttribute('aria-hidden', (!willOpen).toString());
+        }
+
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => toggleFaq(button));
+        });
+
+        // --- 2. Scroll Reveal Animation ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("load", reveal);
+        window.addEventListener("scroll", reveal);
+
+        // --- 3. Translation Logic ---
+        const translations = {
+            es: {
+                nav_home: "Inicio", nav_services: "Servicios", nav_faqs: "FAQs", nav_contact: "Contacto",
+                hero_eyebrow: "Consultoría boutique",
+                hero_title: "La Tranquilidad Digital que Necesitas",
+                hero_subtitle: "¿Sientes que el futuro de tu negocio pasa por lo digital, pero la frustración de tomar una mala decisión te paraliza? Tienes derecho a la certeza digital.",
+                hero_pill1: "Diagnóstico integral", hero_pill2: "Roadmap accionable", hero_pill3: "Entrega de producto", hero_pill4: "Equipo senior on-demand",
+                cta_button: "Agendar Charla Gratuita", cta_secondary: "Explorar servicios",
+                hero_card_title: "Partner Digital End-to-End",
+                hero_card_copy: "Convertimos la complejidad tecnológica en decisiones claras con impacto en negocio.",
+                metric1_label: "Sprints alineados", metric2_label: "Roadmaps on-time", metric3_label: "Mercados atendidos", metric4_label: "Soporte estratégico",
+                about_title: "Tu Socio Estratégico",
+                about_p1: "MS Consulting es tu socio estratégico. Te acompañamos en cada decisión, traducimos la complejidad técnica a lenguaje de negocio y te aseguramos que tus inversiones digitales te acerquen a tus objetivos.",
+                about_p2: "Somos profesionales full-time que reservamos parte de nuestro tiempo para apoyarte bajo una economía circular del conocimiento: pagas por la certeza de una experiencia boutique, no por nuestra curva de aprendizaje.",
+                about_hl1: "Industrias intervenidas", about_hl2: "Clientes por referidos", about_hl3: "Modelos de engagement flexibles",
+                services_tag: "Donde agregamos valor",
+                services_title: "Nuestros Servicios",
+                services_desc: "Diagnóstico estratégico, ejecución rigurosa y optimización continua para asegurar que cada inversión digital tenga retorno medible.",
+                cta_tag: "Co-creamos contigo",
+                cta_banner_title: "Ponemos en movimiento tus ideas",
+                cta_banner_copy: "Comenzamos con un sprint de descubrimiento ágil para auditar tu stack, entender al equipo y definir el mayor quick win antes de invertir en desarrollo.",
+                cta_banner_button: "Reservar 30'",
+                serv1_title: "Ideation & Planificación", serv1_p1: "Bajamos tu idea a tierra de forma realista. Evaluamos potencial y factibilidad técnica para evitar desperdicio de presupuesto.", serv1_p2: "Definimos el MVP (Mínimo Producto Viable) con un plan de trabajo claro, ideal para equipos que necesitan visión experta.",
+                serv2_title: "MVP: Ejecución Acompañada", serv2_p1: "Aportamos la experiencia técnica para gestionar la entrega de tu software en tiempo y forma, minimizando riesgos de fracaso.", serv2_p2: "Evita el agotamiento de tu equipo y el estancamiento por incumplimiento de deadlines mediante caminos probados.",
+                serv3_title: "GPS: Optimización", serv3_p1: "Si tu producto no rinde como esperabas, analizamos tu operación y redefinimos los pasos estratégicos.", serv3_p2: "Convertimos tu tecnología en una ventaja competitiva real alineada a tu visión de negocio.",
+                serv4_title: "Trainings", serv4_p1: "Talleres especializados en brechas profesionales clave: Behind Ecommerce, Lean Startup y Software Partner.", serv4_p2: "Soluciones tangibles e inmediatas para elevar el nivel técnico de tu equipo interno.",
+                serv5_title: "MS Exchange", serv5_p1: "Tu puerta de entrada: una charla de una hora, gratis, para entender si somos el socio que necesitas.", serv5_p2: "Solo trae tu problema definido en una oración y los hitos de cómo llegaste ahí. Nosotros trazamos el camino.",
+                faq_title: "Preguntas Frecuentes",
+                faq1_q: "\"No sé por dónde empezar ni cuánto me costará.\"", faq1_a: "Eliminamos esa incertidumbre bajando la idea a tierra, evaluando factibilidad y definiendo un plan MVP claro para cuidar tu presupuesto.",
+                faq2_q: "\"Tengo el plan, pero temo que no se entregue a tiempo.\"", faq2_a: "Brindamos gestión técnica experta para garantizar entregas en tiempo y forma, evitando el \"burnout\" del equipo y retrasos comunes.",
+                faq3_q: "\"Mi producto ya está, pero no funciona bien.\"", faq3_a: "Actuamos como GPS: analizamos la operación actual y reorientamos la estrategia para que la tecnología genere resultados de negocio reales.",
+                contact_title: "Contacto",
+                lbl_linkedin: "LinkedIn", lbl_email: "Email", lbl_social: "Instagram"
+            },
+            en: {
+                nav_home: "Home", nav_services: "Services", nav_faqs: "FAQs", nav_contact: "Contact",
+                hero_eyebrow: "Boutique consultancy",
+                hero_title: "The Digital Tranquility You Need",
+                hero_subtitle: "Do you feel the future of your business is digital, but the frustration of making a bad decision paralyzes you? You have the right to digital certainty.",
+                hero_pill1: "Full diagnosis", hero_pill2: "Actionable roadmap", hero_pill3: "Product delivery", hero_pill4: "Senior team on-demand",
+                cta_button: "Book Free Chat", cta_secondary: "Discover services",
+                hero_card_title: "End-to-End Digital Partner",
+                hero_card_copy: "We turn technological complexity into clear decisions with business impact.",
+                metric1_label: "Aligned sprints", metric2_label: "On-time roadmaps", metric3_label: "Markets served", metric4_label: "Strategic support",
+                about_title: "Your Strategic Partner",
+                about_p1: "MS Consulting is your strategic partner. We accompany you in every decision, translating technical complexity into business language, ensuring your digital investments bring you closer to your goals.",
+                about_p2: "We are full-time professionals reserving part of our time to support you under a circular knowledge economy: you pay for the certainty of a boutique experience, not our learning curve.",
+                about_hl1: "Industries impacted", about_hl2: "Clients by referrals", about_hl3: "Flexible engagement models",
+                services_tag: "Where we add value",
+                services_title: "Our Services",
+                services_desc: "Strategic diagnosis, rigorous execution, and ongoing optimization so every digital investment has measurable ROI.",
+                cta_tag: "We co-create with you",
+                cta_banner_title: "We set your ideas in motion",
+                cta_banner_copy: "We kick off with a fast discovery sprint to audit your stack, understand your team, and define the biggest quick win before investing in build.",
+                cta_banner_button: "Book a 30' slot",
+                serv1_title: "Ideation & Planning", serv1_p1: "We ground your idea realistically. We evaluate potential and technical feasibility to avoid budget waste.", serv1_p2: "We define the MVP (Minimum Viable Product) with a clear work plan, ideal for teams needing expert vision.",
+                serv2_title: "MVP: Accompanied Execution", serv2_p1: "We provide technical experience to manage your software delivery on time, minimizing failure risks.", serv2_p2: "Avoid team burnout and stagnation due to missed deadlines through proven paths.",
+                serv3_title: "GPS: Optimization", serv3_p1: "If your product isn't performing as expected, we analyze your operation and redefine strategic steps.", serv3_p2: "We turn your technology into a real competitive advantage aligned with your business vision.",
+                serv4_title: "Trainings", serv4_p1: "Specialized workshops on key professional gaps: Behind Ecommerce, Lean Startup, and Software Partner.", serv4_p2: "Tangible and immediate solutions to elevate your internal team's technical level.",
+                serv5_title: "MS Exchange", serv5_p1: "Your entry door: a one-hour chat, free, to understand if we are the partner you need.", serv5_p2: "Just bring your problem defined in one sentence and the milestones of how you got there. We trace the path.",
+                faq_title: "Frequently Asked Questions",
+                faq1_q: "\"I don't know where to start or the cost.\"", faq1_a: "We eliminate that uncertainty by grounding the idea, evaluating feasibility, and defining a clear MVP plan to protect your budget.",
+                faq2_q: "\"I have the plan, but fear delays.\"", faq2_a: "We provide expert technical management to guarantee on-time delivery, avoiding team burnout and common delays.",
+                faq3_q: "\"My product exists, but doesn't work well.\"", faq3_a: "We act as GPS: analyzing current operations and reorienting strategy so technology generates real business results.",
+                contact_title: "Contact",
+                lbl_linkedin: "LinkedIn", lbl_email: "Email", lbl_social: "Instagram"
+            }
+        };
+
+        let currentLang = 'es';
+        function toggleLanguage() {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLang][key]) element.textContent = translations[currentLang][key];
+            });
+            document.querySelector('.lang-switch').textContent = currentLang === 'es' ? 'ES / EN' : 'EN / ES';
+        }
+    </script>
+</body>
+</html>
