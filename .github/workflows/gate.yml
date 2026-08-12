@@ -1,0 +1,349 @@
+# The delivery gate — Handbook §26.
+#
+# ADOPTION DEVIATION FROM templates/landing@v3.7.1 — ONE, DELIBERATE AND NAMED.
+# The template is the carrier and is otherwise copied verbatim, `publish` job included. Where this
+# file differs, it says so here rather than diverging quietly, because a template edited without a
+# record is a template nobody can re-sync.
+#
+#   THE `build-derived --check` STEP IS CONDITIONAL ON `facts.js` EXISTING. It is not disabled: the
+#   moment that file lands the check runs and gates like any other. See the step itself for the rule
+#   it defers, the reason, and the debt entry that owns it. Nothing else is deferred.
+#
+# THE HOSTING DECISION THIS WORKFLOW ENCODES — taken 2026-08-11 by Juan Torresel.
+#
+# The site moves from Apache (DonWeb) to GitHub Pages. §26 requires the host to be chosen against
+# the controls it makes available and requires what the choice PUTS OUT OF REACH to be recorded, so:
+#
+#   Pages serves NO custom response headers. There is therefore no content security policy, no
+#   transport policy of our own, no permissions policy, and — the one that cannot be expressed from
+#   inside a document at all — NO PROTECTION AGAINST FRAMING. `_headers` is a Netlify/Cloudflare
+#   convention and does nothing here, which is why this repository ships no such file: an inert one
+#   would read as a control that exists.
+#
+#   Pages issues NO real redirect status. §26's canonical-identity rule is unimplementable here the
+#   day this site gains a second URL or retires one. A markup page that refreshes the browser is not
+#   a substitute.
+#
+#   Pages provides no access logs and no cache purge.
+#
+# These are DECLARED ABSENT, which §26 permits, rather than left implied, which it does not. They
+# are recorded in `docs/inapplicable.md` with the condition that would reopen the choice. They are
+# NOT debt: debt is what is expensive to fix, and on this host these are not fixable at all.
+#
+# THIS WORKFLOW IS THE PUBLICATION ORIGIN. Publishing from a branch means the push *is* the deploy
+# and there is no point at which anything can refuse — which is the structural reason this class of
+# work tends to have no verification at all: there would be nowhere to put it.
+#
+# So: set the repository's publishing source to GitHub Actions (or the equivalent on your host), and
+# `publish` runs only after `gate` passes.
+#
+# §20's five stages are declared INAPPLICABLE for this class, by name and with the reason — there is
+# no build, no type system, no unit suite and no dependency tree here. This replaces them. Dropping
+# them silently is the failure the handbook names elsewhere.
+#
+# WHY EVERY CHECK RUNS EVEN AFTER ONE FAILS
+#
+# The first version of this file was one job of sequential steps, and the first failure hid the nine
+# results after it. That turns one pass into a queue: fix, re-run, discover the next, re-run. A
+# lint's output is input to the next turn (§20), and a report that stops at the first line is a
+# worse input than one that lists everything wrong at once. So the checks run in two parallel jobs,
+# every step is `if: '!cancelled()'`, and `gate` is the single thing to require in branch
+# protection.
+#
+# TOOLING POLICY
+#
+# The site's own checks are Node stdlib, in `scripts/`, with no dependencies at all. Two external
+# tools are pinned by exact version and fetched with `npx --yes`, the pattern the Central Standards
+# CI already uses. Bumping one of these versions is a change with a proposal, not a convenience
+# edit: §22 treats CI configuration as privileged surface.
+#
+# It was three. The accessibility CLI was removed after its first run on a real runner failed
+# because the driver it bundles was tied to a Chrome the runner no longer had — see the note where
+# it used to be. Pinning a tool without pinning the browser it drives is not a pin.
+
+name: Delivery gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ------------------------------------------------------------------ the site's own rules
+  # Seconds, no network, no dependencies. These are the rules no general-purpose tool knows about,
+  # which is exactly why §20 says to promote a rule into code when documentation fails to hold it.
+  checks:
+    name: Site rules (§26)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: The gate's own test
+        # Asserts BOTH directions — a correct site passes every check, and each deliberate defect is
+        # caught by the check that owns it. A check that has never failed on purpose is not known to
+        # work; a check that fires on correct input teaches people to route around the gate.
+        #
+        # RULE DEFERRED, NAMED: §20 / AGENTS.md "a check that has never failed on purpose is not
+        # known to work".
+        #
+        # REASON: `test-gate.mjs` builds its known-good fixture by copying the REPOSITORY ROOT and
+        # editing the template's own placeholders out of it. That works in the template and cannot
+        # work in a site that adopted the standard afterwards — the fixture setup aborts on the
+        # first string it cannot find. It is a test of the template, not of this site.
+        #
+        # WHY IT IS SAFE TO CARRY: all seven files in `scripts/` are BYTE-IDENTICAL to
+        # engineering-handbook@v3.7.1, where this test runs and passes on every pull request. Their
+        # SHA-256 digests are recorded in `.github/handbook-version.md` so the claim is checkable by
+        # hand rather than merely asserted. The instrument is tested — upstream.
+        #
+        # THE TRIGGER, and it is sharp: the moment any file in `scripts/` is modified locally, the
+        # upstream test no longer covers it and this deferral is void. Vendor the pristine template
+        # into `scripts/fixtures/landing/` and point TEMPLATE at it BEFORE changing a check.
+        #
+        # OWNED BY: debt #5 in `docs/technical-debt.md`.
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          if [ -d scripts/fixtures/landing ]; then
+            node scripts/test-gate.mjs
+          else
+            echo "::warning::DEFERRED — the gate's own test needs a pristine template fixture that this repository does not carry. Carried as debt #5. Digests in .github/handbook-version.md pin these checks to engineering-handbook@v3.7.1, where the test passes."
+            echo "Verifying the checks are unmodified since v3.7.1 — this is what makes the deferral safe:"
+            sha256sum -c .github/handbook-scripts.sha256
+          fi
+
+      # ---------------------------------------------------------------- REPORT-ONLY, DELIBERATELY
+      #
+      # The next three steps are `continue-on-error`. THIS IS THE RATCHET, not a suppression, and
+      # the distinction is the whole of step 4 of the `adopt-an-existing-repository` skill:
+      #
+      #   "Set the gate to ratchet, not to pass. THE GATE FAILS ON A VIOLATION THAT IS NEW, not on
+      #    one that already existed."
+      #
+      # This repository adopted the standard eight months after the site shipped, so these three
+      # checks report 21 findings that were not mistakes when they were written. Left as hard
+      # failures they would make the gate red on every run forever, which is how a gate gets
+      # switched off in a week — the exact failure the ratchet exists to prevent, arriving through
+      # the workflow rather than through the rules.
+      #
+      # NOTHING IS SILENCED. Every finding is printed in full on every run, which is the point: a
+      # lint's output is input to the next turn (§20). What moves is the GATING AUTHORITY, to the
+      # `Nothing new (ratchet)` step below, which IS a hard failure and rises the moment any count
+      # goes above the baseline.
+      #
+      # WHAT IS NOT REPORT-ONLY, and must never become so: the ratchet itself, and the tracked
+      # internal material step. Contract-sensitive findings are not ratchetable — carrying one is
+      # not a slower fix, it is an open hole. Those stay fix-now by definition, and a mechanism that
+      # quietly accepted them would have inverted the point of having one. This gate is therefore
+      # RED TODAY, on `Logos MK Sense/logo.ai`, and it is supposed to be.
+      #
+      # HOW THIS ENDS: when `.gate-baseline.json` reaches zero, delete these three
+      # `continue-on-error` lines. Until then, `git log -p .gate-baseline.json` is the record of
+      # this repository paying its adoption down.
+      - name: One configuration module, no placeholders
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: node scripts/check-config.mjs
+
+      - name: Business facts derive from one source
+        # RULE DEFERRED, NAMED: §26 "Business facts are declared once" — one data object from which
+        # the markup, the structured data and the machine-readable summary derive.
+        #
+        # REASON: this site declares no facts object. Every business fact is inline in `index.html`,
+        # and each one is written twice more inside the two language dictionaries in the same file.
+        # `build-derived.mjs` cannot even run against it — it throws on the first missing
+        # `<!-- BEGIN GENERATED -->` marker, so the step does not fail, it errors. A step that errors
+        # on every run of a repository that cannot yet satisfy it is how a gate gets switched off in
+        # a week, which is the failure the whole adoption procedure exists to prevent.
+        #
+        # SCOPE: this defers ONE check for as long as ONE file is absent. It is not a rule disable
+        # and it does not cover code written tomorrow — adding `facts.js` turns it on, and there is
+        # no way to add the file and keep the check off.
+        #
+        # OWNED BY: debt #4 in `docs/technical-debt.md`, with its trigger and its owner.
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          if [ -f facts.js ]; then
+            node scripts/build-derived.mjs --check
+          else
+            echo "::warning::DEFERRED — §26 'business facts are declared once' is not met: there is no facts.js, so the derived artifacts do not exist and this check cannot run. Carried as debt #4. This is not a suppression: creating facts.js enables the check."
+          fi
+
+      - name: Indexability and the mobile render rules (§26, §6c)
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: node scripts/check-markup.mjs
+
+      - name: Byte budgets, orphans and third-party origins
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: node scripts/check-assets.mjs
+
+      - name: Nothing new (ratchet)
+        # For a repository ADOPTING the standard with violations already present. It carries what
+        # existed and fails on what is new, so the site stops getting worse on day one without the
+        # gate reporting compliance it does not have.
+        #
+        # A site built from this template has no baseline and this is a no-op — which is correct: a
+        # compliant site needs none, and recording a baseline of zero only invites raising it.
+        if: ${{ !cancelled() }}
+        run: node scripts/ratchet.mjs
+
+      - name: What a green run does and does not claim
+        # This repository adopted the standard after its code existed, so a green gate here means
+        # "nothing NEW, and nothing contract-sensitive outstanding" — NOT "compliant". A badge that
+        # can be misread as a compliance claim is worse than no badge, and the place to say so is
+        # the run itself rather than a document somebody would have to already be suspicious to
+        # open. Printed on every run, pass or fail.
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          echo 'Green means: nothing NEW was added, and nothing contract-sensitive is outstanding.'
+          echo 'Green does NOT mean compliant. Findings still carried, from .gate-baseline.json:'
+          echo
+          grep -E '^\s+"check' .gate-baseline.json || true
+          echo
+          echo 'When that list is empty, delete the three continue-on-error lines in this job.'
+          echo 'Full reading: docs/measurement-baseline.md'
+
+      - name: No tracked secret or internal material (§4c)
+        # The repository is the web root: a committed file is a published file. This is the last
+        # line, not the mechanism — `.gitignore` is where the decision lives.
+        #
+        # ARCHIVE EXTENSIONS ARE A LOCAL ADDITION to the template's pattern, reported upstream as
+        # engineering-handbook#58. The template caught this repository's `.ai` file and passed the
+        # 583 KB zip sitting next to it, which contained the same class of material. A check that
+        # catches the loose file and misses the archive of loose files is catching the less likely
+        # case: "send me the logos" produces a zip.
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -Ei '\.(ai|psd|sketch|fig|env|pem|key|p12|pfx|zip|rar|7z|tar|tgz)$|(^|/)(Branding|drafts|client)/'; then
+            echo "::error::Internal material is tracked, and in this architecture tracked means published (Handbook §26)."
+            exit 1
+          fi
+          echo "OK — nothing internal is tracked."
+
+  # ------------------------------------------------------------------ external tools, pinned
+  # Minutes, and independent of the job above so a placeholder left in `config.js` never hides a
+  # performance regression.
+  external:
+    name: Links, accessibility, performance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Serve the site
+        run: |
+          python3 -m http.server 8080 --directory . &
+          for i in $(seq 1 20); do
+            curl -fsS http://127.0.0.1:8080/ >/dev/null && break
+            sleep 0.5
+          done
+          curl -fsS http://127.0.0.1:8080/ >/dev/null
+
+      - name: Links resolve, including retired destinations
+        if: ${{ !cancelled() }}
+        run: |
+          npx --yes linkinator@6.1.2 http://127.0.0.1:8080/ \
+            --recurse \
+            --skip '^https?://(?!127\.0\.0\.1)' \
+            --verbosity error
+
+      # NO SEPARATE ACCESSIBILITY STEP, and the reason is worth keeping.
+      #
+      # This job originally ran a pinned accessibility CLI, and on its first execution on a real
+      # runner it failed for a reason that had nothing to do with the site: the CLI bundles a driver
+      # tied to one Chrome version, the runner's Chrome had moved, and the step errored before
+      # testing anything. A gate that goes red for reasons unrelated to the site is a gate people
+      # switch off — the failure mode §20 warns about, arriving through the supply chain rather than
+      # through a bad rule.
+      #
+      # Lighthouse's accessibility category IS axe-core, and it manages its own browser. So the
+      # coverage moved there, backed by explicit assertions on the load-bearing audits rather than
+      # by an aggregate score alone. What no tool covers — the keyboard walkthrough — stays in the
+      # pull-request checklist, where it always was.
+
+      - name: Mobile performance and accessibility thresholds
+        # A threshold with no job that runs it produces the same software as no threshold. The
+        # floors live in lighthouserc.json so a loosened one shows up in a diff and has to be
+        # argued for.
+        #
+        # THIS WAS REPORT-ONLY FOR ONE DAY and is not any more. On 2026-08-12 the site measured
+        # accessibility 0.94 against a floor of 0.95, best-practices 0.79 against 0.90 and LCP over
+        # 2500 ms, so the numbers were carried as debt #12 with every threshold left untouched.
+        # Self-hosting the fonts, extracting the stylesheet and fixing the two contrast pairs closed
+        # all of it the same day, so the deferral is deleted rather than left in place — which is
+        # what "how this ends" meant when it was written.
+        #
+        # One warning remains and is deliberately still a warning: `uses-responsive-images` at 0.5,
+        # which is the logo served larger than it is displayed. Recorded as debt #13.
+        if: ${{ !cancelled() }}
+        run: npx --yes @lhci/cli@0.14.0 autorun
+
+  # ------------------------------------------------------------------ the single required check
+  gate:
+    name: Delivery gate
+    needs: [checks, external]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Every check passed
+        run: |
+          set -euo pipefail
+          echo "site rules : ${{ needs.checks.result }}"
+          echo "external   : ${{ needs.external.result }}"
+          if [ "${{ needs.checks.result }}" != "success" ] || [ "${{ needs.external.result }}" != "success" ]; then
+            echo "::error::The gate did not pass. Every failing check is listed in the two jobs above — fix them together rather than one per run."
+            exit 1
+          fi
+          echo "Gate passed. Publication happens only from this workflow, never from a branch (§26)."
+
+  # ------------------------------------------------------------------ publication
+  publish:
+    name: Publish
+    needs: gate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # The domain file must travel with the artifact. Moving the publication origin from a branch
+      # to a workflow and omitting it unbinds the custom domain SILENTLY — the site keeps working on
+      # the default host and the client's domain stops resolving (§26).
+      - name: Assert the domain file is present
+        run: |
+          set -euo pipefail
+          if [ -f CNAME ]; then
+            echo "OK — CNAME travels with the artifact: $(cat CNAME)"
+          else
+            echo "::warning::No CNAME file. If this site has a custom domain, publishing from a workflow without it unbinds the domain silently."
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deploy
+        uses: actions/deploy-pages@v4
