@@ -22,8 +22,27 @@ export const loadBrowserGlobal = async (path, name) => {
   return value;
 };
 
-/** Every file under `root`, excluding version control and the gate's own machinery. */
-export const walk = async (root, skip = [".git", "node_modules", "scripts", ".github"]) => {
+/**
+ * Every file under `root`, excluding version control and the gate's own machinery.
+ *
+ * LOCAL DEVIATION FROM engineering-handbook@v3.7.1 — `.gate-baseline.json` added to the skip list.
+ * Reported upstream; see `docs/handbook-feedback.md`. One token, and it is the same category as the
+ * three entries already here: gate machinery, not site content.
+ *
+ * WHY, because it is not obvious and it does not converge without this. The ratchet writes its
+ * baseline keyed by `check|file`, so the file contains quoted strings like
+ * `"check-assets|trustlogo/javascript/trustlogo.js"`. `check-assets` scans every `.json` for
+ * references, reads that key as a path, finds no such file, and reports a NEW finding — which the
+ * ratchet then wants recorded in the baseline, whose new key is longer and produces another one.
+ * Raising the baseline by hand does not terminate; skipping the file does.
+ *
+ * It only bites a repository ADOPTING the standard: a site built from the template has no baseline,
+ * which is why upstream has not hit it.
+ */
+export const walk = async (
+  root,
+  skip = [".git", "node_modules", "scripts", ".github", ".gate-baseline.json"],
+) => {
   const out = [];
   const visit = async (dir) => {
     for (const entry of await readdir(dir, { withFileTypes: true })) {

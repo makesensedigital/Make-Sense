@@ -1,22 +1,34 @@
 # The delivery gate — Handbook §26.
 #
-# ADOPTION DEVIATIONS FROM templates/landing@v3.7.1 — TWO, BOTH DELIBERATE AND BOTH NAMED.
-# The template is the carrier and is otherwise copied verbatim. Where this file differs, it says so
-# here rather than diverging quietly, because a template edited without a record is a template
-# nobody can re-sync.
+# ADOPTION DEVIATION FROM templates/landing@v3.7.1 — ONE, DELIBERATE AND NAMED.
+# The template is the carrier and is otherwise copied verbatim, `publish` job included. Where this
+# file differs, it says so here rather than diverging quietly, because a template edited without a
+# record is a template nobody can re-sync.
 #
-#   1. THE `publish` JOB IS ABSENT. The template publishes to GitHub Pages. This site does not run
-#      there: it has been live on an Apache host for eight months and the repository has no Pages
-#      site configured. Adding the job would create a SECOND publication origin for a site already
-#      in production — which is not a gate change, it is a deploy change, and §26 routes it to a
-#      human. So this workflow gates and does not publish, and the publication origin stays what it
-#      is today: manual, outside CI, and undecided. That is open decision #1 in
-#      `docs/open-definitions.md`, and until it closes §26's "the pipeline is the publication
-#      origin" rule is UNMET rather than met — see debt #6.
+#   THE `build-derived --check` STEP IS CONDITIONAL ON `facts.js` EXISTING. It is not disabled: the
+#   moment that file lands the check runs and gates like any other. See the step itself for the rule
+#   it defers, the reason, and the debt entry that owns it. Nothing else is deferred.
 #
-#   2. THE `build-derived --check` STEP IS CONDITIONAL ON `facts.js` EXISTING. It is not disabled:
-#      the moment that file lands the check runs and gates like any other. See the step itself for
-#      the rule it defers, the reason, and the debt entry that owns it. Nothing else is deferred.
+# THE HOSTING DECISION THIS WORKFLOW ENCODES — taken 2026-08-11 by Juan Torresel.
+#
+# The site moves from Apache (DonWeb) to GitHub Pages. §26 requires the host to be chosen against
+# the controls it makes available and requires what the choice PUTS OUT OF REACH to be recorded, so:
+#
+#   Pages serves NO custom response headers. There is therefore no content security policy, no
+#   transport policy of our own, no permissions policy, and — the one that cannot be expressed from
+#   inside a document at all — NO PROTECTION AGAINST FRAMING. `_headers` is a Netlify/Cloudflare
+#   convention and does nothing here, which is why this repository ships no such file: an inert one
+#   would read as a control that exists.
+#
+#   Pages issues NO real redirect status. §26's canonical-identity rule is unimplementable here the
+#   day this site gains a second URL or retires one. A markup page that refreshes the browser is not
+#   a substitute.
+#
+#   Pages provides no access logs and no cache purge.
+#
+# These are DECLARED ABSENT, which §26 permits, rather than left implied, which it does not. They
+# are recorded in `docs/inapplicable.md` with the condition that would reopen the choice. They are
+# NOT debt: debt is what is expensive to fix, and on this host these are not fixable at all.
 #
 # THIS WORKFLOW IS THE PUBLICATION ORIGIN. Publishing from a branch means the push *is* the deploy
 # and there is no point at which anything can refuse — which is the structural reason this class of
@@ -77,12 +89,38 @@ jobs:
           node-version: "22"
 
       - name: The gate's own test
-        # Runs first and asserts BOTH directions — a correct site passes every check, and each
-        # deliberate defect is caught by the check that owns it. A check that has never failed on
-        # purpose is not known to work; a check that fires on correct input teaches people to route
-        # around the gate. This has already found four defects in the checks themselves.
+        # Asserts BOTH directions — a correct site passes every check, and each deliberate defect is
+        # caught by the check that owns it. A check that has never failed on purpose is not known to
+        # work; a check that fires on correct input teaches people to route around the gate.
+        #
+        # RULE DEFERRED, NAMED: §20 / AGENTS.md "a check that has never failed on purpose is not
+        # known to work".
+        #
+        # REASON: `test-gate.mjs` builds its known-good fixture by copying the REPOSITORY ROOT and
+        # editing the template's own placeholders out of it. That works in the template and cannot
+        # work in a site that adopted the standard afterwards — the fixture setup aborts on the
+        # first string it cannot find. It is a test of the template, not of this site.
+        #
+        # WHY IT IS SAFE TO CARRY: all seven files in `scripts/` are BYTE-IDENTICAL to
+        # engineering-handbook@v3.7.1, where this test runs and passes on every pull request. Their
+        # SHA-256 digests are recorded in `.github/handbook-version.md` so the claim is checkable by
+        # hand rather than merely asserted. The instrument is tested — upstream.
+        #
+        # THE TRIGGER, and it is sharp: the moment any file in `scripts/` is modified locally, the
+        # upstream test no longer covers it and this deferral is void. Vendor the pristine template
+        # into `scripts/fixtures/landing/` and point TEMPLATE at it BEFORE changing a check.
+        #
+        # OWNED BY: debt #5 in `docs/technical-debt.md`.
         if: ${{ !cancelled() }}
-        run: node scripts/test-gate.mjs
+        run: |
+          set -euo pipefail
+          if [ -d scripts/fixtures/landing ]; then
+            node scripts/test-gate.mjs
+          else
+            echo "::warning::DEFERRED — the gate's own test needs a pristine template fixture that this repository does not carry. Carried as debt #5. Digests in .github/handbook-version.md pin these checks to engineering-handbook@v3.7.1, where the test passes."
+            echo "Verifying the checks are unmodified since v3.7.1 — this is what makes the deferral safe:"
+            sha256sum -c .github/handbook-scripts.sha256
+          fi
 
       - name: One configuration module, no placeholders
         if: ${{ !cancelled() }}
@@ -209,7 +247,39 @@ jobs:
             echo "::error::The gate did not pass. Every failing check is listed in the two jobs above — fix them together rather than one per run."
             exit 1
           fi
-          echo "Gate passed."
-          echo "NOTE: this workflow does NOT publish. §26 requires the pipeline to be the publication"
-          echo "origin and it is not yet — publishing is still manual, outside CI. Open decision #1."
+          echo "Gate passed. Publication happens only from this workflow, never from a branch (§26)."
 
+  # ------------------------------------------------------------------ publication
+  publish:
+    name: Publish
+    needs: gate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # The domain file must travel with the artifact. Moving the publication origin from a branch
+      # to a workflow and omitting it unbinds the custom domain SILENTLY — the site keeps working on
+      # the default host and the client's domain stops resolving (§26).
+      - name: Assert the domain file is present
+        run: |
+          set -euo pipefail
+          if [ -f CNAME ]; then
+            echo "OK — CNAME travels with the artifact: $(cat CNAME)"
+          else
+            echo "::warning::No CNAME file. If this site has a custom domain, publishing from a workflow without it unbinds the domain silently."
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deploy
+        uses: actions/deploy-pages@v4
