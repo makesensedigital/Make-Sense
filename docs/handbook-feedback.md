@@ -3,7 +3,7 @@
 §12 and the handbook's own contribution rules ask for this: a rule that does not survive contact
 with a real repository is a defect in the rule, and there is no other way for the standard to find
 out. **This file is the durable copy** — it survives issue trackers and lives in the same clone as the
-rules it qualifies. All six were filed upstream on 2026-08-12; the issue is linked on each entry.
+rules it qualifies. All seven were filed upstream on 2026-08-12; the issue is linked on each entry.
 
 Adoption date: **2026-08-11** · Handbook: **v3.7.1** · Repository: `makesensedigital/Make-Sense`
 
@@ -200,3 +200,26 @@ sits below the floor. That keeps the floor as the published target, which is the
 the truth. Same idea as the count baseline, different comparison.
 
 **Status:** filed — https://github.com/makesensedigital/engineering-handbook/issues/57
+
+---
+
+## 7. check-assets never reads stylesheets, so §26's own advice produces findings
+
+**Where:** `templates/landing/scripts/check-assets.mjs`, the orphan and reference scans.
+
+§26 recommends self-hosting typefaces in as many words — *"Self-hosting typefaces removes one of
+these outright and is faster."* Doing it produced **ten orphan findings**, one per `woff2`, because
+the reference scan reads `js|json|webmanifest|xml|txt|html` and **not `css`**. A stylesheet is the
+most common place to reference a font or a background image and it is the one file type the scan
+skipped.
+
+Two edges sit behind it: the reference regex requires quotes, and CSS `url()` is most commonly
+written unquoted; and `localise()` does not resolve a path against the directory of the file it
+appears in, so a relative `url(fonts/x.woff2)` inside `assets/fonts.css` produces *two* findings for
+one correct line — a missing file at the root, and an orphan where the file really is.
+
+**What we did.** Added `css` to the scan list, and wrote our font URLs quoted and root-relative.
+`check-assets.mjs` is now the second of seven scripts not byte-identical to `v3.7.1`; both
+divergences are recorded in `.github/handbook-scripts.sha256` and verified by the gate.
+
+**Status:** filed — https://github.com/makesensedigital/engineering-handbook/issues/59

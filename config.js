@@ -104,8 +104,9 @@
     // -------------------------------------------------------------------- assets
     // No build means no content-addressed filenames, so cache invalidation is manual. Bump this on
     // any change to a style, script or image; `?v=` is appended from here and nowhere else.
-    // Nothing carries `?v=` yet — the styles and scripts are still inline in `index.html`.
-    assetVersion: 1,
+    // Bumped to 2 on 2026-08-12 when `styles.css` was extracted from the markup. `check-config`
+    // fails if this and the `?v=` in the markup disagree.
+    assetVersion: 2,
   };
 
   root.SITE_CONFIG = CONFIG;

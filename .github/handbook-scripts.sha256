@@ -6,14 +6,20 @@
 # these checks are known to work rests on them matching the release where that test passes. This
 # file turns that claim from an assertion into something the gate verifies on every run.
 #
-# SIX OF THE SEVEN ARE BYTE-IDENTICAL TO v3.7.1. One is not, and pretending otherwise is exactly
+# FIVE OF THE SEVEN ARE BYTE-IDENTICAL TO v3.7.1. Two are not, and pretending otherwise is exactly
 # the kind of thing this file exists to prevent:
 #
 #   lib.mjs — ONE LINE ADDED to `walk()`'s default skip list: `.gate-baseline.json`. Without it the
 #   ratchet's own baseline is scanned as site content, its `check|file` keys are read as file
 #   references, and each run manufactures a new finding whose baseline key is longer than the last.
-#   It does not converge. Found by running the gate, not by reading it. Reported upstream — see
-#   `docs/handbook-feedback.md`. Debt #5 carries the consequence.
+#   It does not converge. engineering-handbook#54.
+#
+#   check-assets.mjs — ONE TOKEN ADDED to the reference scan's extension list: `css`. A stylesheet
+#   is the most common place to reference a font or a background image, and it was the one file
+#   type the scan did not read — ten self-hosted woff2 files, correctly referenced from
+#   `assets/fonts.css`, were all reported as orphans. engineering-handbook#59.
+#
+# Both were found by running the gate rather than by reading it, and both are carried by debt #5.
 #
 # Editing ANY of these makes this check fail, which is the intended behaviour: at that moment the
 # upstream test no longer covers it, and the correct next step is to vendor the pristine template
@@ -28,3 +34,15 @@ b40723d0739348453872dba108242f4990868f24e48e0415b5234521adf3fb43 *scripts/test-g
 
 # Upstream digest of the divergent file, for comparison when re-syncing:
 #   lib.mjs @ v3.7.1 = db440c871c4c34a92903d698f611e5a3785e8adfbae604f7955712c2e6fd39d6
+
+beb63aa3407ca0a8ed8f5ad27f2b16e7a70326806965e37d8f92906e6ae79445 *scripts/build-derived.mjs
+07a9d7ed2c294591228975aa6d95dab1811b229814baa1334568a3b11cfc5d7b *scripts/check-assets.mjs
+17da63bf9c430ea9b00557fe4e63297a93f98a81165058e78056ac18a9b54e56 *scripts/check-config.mjs
+03120c775a75a5f9d3a347fc7190af8cfa3191728faf5aafaba7e0fe18c0b25c *scripts/check-markup.mjs
+77d8499bdca3eff067b3a6517a2dfc4316bc899f503718db76565726359f8e05 *scripts/lib.mjs
+08e893790b877dd5e0cc6028dbfa0ed254e484e59c972c359543db8ee8fcb045 *scripts/ratchet.mjs
+b40723d0739348453872dba108242f4990868f24e48e0415b5234521adf3fb43 *scripts/test-gate.mjs
+
+# Upstream digests of the two divergent files, for comparison when re-syncing:
+#   lib.mjs         @ v3.7.1 = db440c871c4c34a92903d698f611e5a3785e8adfbae604f7955712c2e6fd39d6
+#   check-assets.mjs @ v3.7.1 = ed724bf540b0bd561cceb9e133d5333b1a2980948dbb7d06dad934170cfbdb3d

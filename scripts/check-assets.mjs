@@ -112,7 +112,13 @@ const localise = (raw) => {
   return raw.replace(/^\.?\//, "");
 };
 
-for (const file of files.filter((f) => /\.(js|json|webmanifest|xml|txt|html)$/.test(f))) {
+// LOCAL DEVIATION FROM engineering-handbook@v3.7.1 — `css` added to this list. Reported as
+// engineering-handbook#59. A stylesheet is the single most common place to reference a font or a
+// background image, and it was the one file type the reference scan did not read: ten self-hosted
+// woff2 files referenced from `assets/fonts.css` were all reported as orphans. Note this only works
+// for QUOTED `url("...")`, because the regex below requires quotes — which is why this repository's
+// stylesheets quote them.
+for (const file of files.filter((f) => /\.(js|json|webmanifest|xml|txt|html|css)$/.test(f))) {
   const text = await read(file);
   for (const m of text.matchAll(REFERENCE)) {
     const target = localise(m[1]);
