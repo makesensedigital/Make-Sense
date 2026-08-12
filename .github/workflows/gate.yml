@@ -203,10 +203,16 @@ jobs:
       - name: No tracked secret or internal material (§4c)
         # The repository is the web root: a committed file is a published file. This is the last
         # line, not the mechanism — `.gitignore` is where the decision lives.
+        #
+        # ARCHIVE EXTENSIONS ARE A LOCAL ADDITION to the template's pattern, reported upstream as
+        # engineering-handbook#58. The template caught this repository's `.ai` file and passed the
+        # 583 KB zip sitting next to it, which contained the same class of material. A check that
+        # catches the loose file and misses the archive of loose files is catching the less likely
+        # case: "send me the logos" produces a zip.
         if: ${{ !cancelled() }}
         run: |
           set -euo pipefail
-          if git ls-files | grep -Ei '\.(ai|psd|sketch|fig|env|pem|key|p12|pfx)$|(^|/)(Branding|drafts|client)/'; then
+          if git ls-files | grep -Ei '\.(ai|psd|sketch|fig|env|pem|key|p12|pfx|zip|rar|7z|tar|tgz)$|(^|/)(Branding|drafts|client)/'; then
             echo "::error::Internal material is tracked, and in this architecture tracked means published (Handbook §26)."
             exit 1
           fi

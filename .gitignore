@@ -14,6 +14,19 @@ Branding/
 *.sketch
 *.fig
 
+# Archives. LOCAL ADDITION, not in templates/landing@v3.7.1 — reported as
+# engineering-handbook#58. An archive is the most likely form for exactly the material the block
+# above exists to keep out, because "send me the logos" produces a zip and somebody commits it next
+# to the folder it came from. That is precisely what happened here: `Logos MK Sense.zip`, 583 KB,
+# was downloadable at its URL for eight months while the `.ai` beside it was the one the pattern
+# caught.
+*.zip
+*.rar
+*.7z
+*.tar
+*.tgz
+*.tar.gz
+
 # Working versions and client material
 drafts/
 client/

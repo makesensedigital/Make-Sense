@@ -7,7 +7,6 @@
     "check-markup|index.html": 4,
     "check-markup|(repository)": 1,
     "check-assets|trustlogo/javascript/trustlogo.js": 1,
-    "check-assets|(repository)": 7,
     "check-assets|index.html": 2
   }
 }

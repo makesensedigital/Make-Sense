@@ -93,14 +93,33 @@ security first because "later" means something different in this bucket.
 
 | # | What | Evidence | Status |
 |---|---|---|---|
-| F1 | `Logos MK Sense/logo.ai` — a 434 KB Illustrator source is tracked, and in this architecture tracked means **published**. | `GET /Logos%20MK%20Sense/logo.ai` → **200, 444261 bytes** | awaiting owner |
-| F2 | `Logos MK Sense.zip` — 583 KB of brand archive, same. **No check catches this**: the gate's pattern covers `.ai/.psd/.sketch/.fig` but not an archive containing them. The check needs extending, which is itself part of the fix. | `GET /Logos%20MK%20Sense.zip` → **200, 596597 bytes** | awaiting owner |
+| F1 | `Logos MK Sense/logo.ai` — a 434 KB Illustrator source is tracked, and in this architecture tracked means **published**. | `GET /Logos%20MK%20Sense/logo.ai` → **200, 444261 bytes** | **untracked 2026-08-12** · history open |
+| F2 | `Logos MK Sense.zip` — 583 KB of brand archive, same. **No check caught this**: the gate's pattern covered `.ai/.psd/.sketch/.fig` but not an archive containing them. | `GET /Logos%20MK%20Sense.zip` → **200, 596597 bytes** | **untracked 2026-08-12**, and the check extended so it cannot recur · history open |
 | F3 | A third-party script is injected with `document.write` from `trust-provider.com`, unpinned, with no subresource integrity and no `defer`. §26 prohibits document-writing script injection and requires third parties to enter through the tag container. It executes with full page privileges, and on plain HTTP it resolves to `http://www.trustlogo.com/...`. | `index.html:693-696`, `index.html:1031-1032` | awaiting owner — removing it removes a visible trust seal, which is a business call |
 
-**F1 and F2 are not fixed by a deletion commit.** §26: deleting a file does not unpublish it — it
-stays in edge caches, in search indexes, and in history where the repository is readable. The
-remediation is untracking *and* rewriting history. That is destructive and it is the owner's call,
-which is why the status column says what it says.
+**F1 and F2 are half fixed, and the half that remains is the one that matters most now.**
+
+Untracked on 2026-08-12, moved to a brand archive outside the repository — nothing was deleted — and
+`.gitignore` and the gate's pattern both extended so an archive cannot slip through again. From the
+next publish those URLs stop resolving.
+
+**The history is still open, and the repository became PUBLIC on 2026-08-12.** §26 is explicit:
+deleting a file does not unpublish it — it stays in edge caches, in search indexes, and in history
+where the repository is readable, which it now is by anyone. Both files remain retrievable from
+commits `99de3de` and `fdae132`:
+
+```bash
+git show 99de3de:"Logos MK Sense/logo.ai" > logo.ai      # works today, for anyone
+```
+
+The remediation §26 names is **rewriting history and rotating whatever was exposed** — never a
+deletion commit. Rewriting rewrites every commit in a public repository and force-pushes over the
+default branch, which breaks every clone and every existing reference. That is destructive and
+outward-facing, so it is the owner's call and it has not been done. The commands are in
+[`../brief.md`](../brief.md).
+
+What was exposed is the company's own brand artwork rather than a credential, so there is nothing to
+rotate — which is the only reason this is a decision rather than an emergency.
 
 ---
 
