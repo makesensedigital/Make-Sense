@@ -2,8 +2,8 @@
 
 §12 and the handbook's own contribution rules ask for this: a rule that does not survive contact
 with a real repository is a defect in the rule, and there is no other way for the standard to find
-out. **This file is the durable copy.** Filing the issues upstream is a separate, outward-facing
-action and has not been done — see *Status* on each entry.
+out. **This file is the durable copy** — it survives issue trackers and lives in the same clone as the
+rules it qualifies. All six were filed upstream on 2026-08-12; the issue is linked on each entry.
 
 Adoption date: **2026-08-11** · Handbook: **v3.7.1** · Repository: `makesensedigital/Make-Sense`
 
@@ -46,7 +46,7 @@ would fire on any baseline key containing a sentinel string.
 **Suggested upstream fix.** The same one line. Alternatively `ratchet.mjs` could write its keys in a
 form that cannot be read as a path, but the skip list is smaller and matches the existing intent.
 
-**Status:** not yet filed.
+**Status:** filed — https://github.com/makesensedigital/engineering-handbook/issues/54
 
 ---
 
@@ -79,7 +79,7 @@ check fails the gate immediately. Carried as debt #5 with that as the trigger.
 `TEMPLATE` to it when it exists, falling back to the repository root. `test-gate.mjs` already
 excludes `scripts/fixtures` from its copy filter, so the shape was anticipated.
 
-**Status:** not yet filed.
+**Status:** filed — https://github.com/makesensedigital/engineering-handbook/issues/55
 
 ---
 
@@ -104,7 +104,7 @@ contain inline `<style>`.
 **What we did.** Recorded as debt #8 with extraction of `styles.css` as the trigger, and named it in
 the baseline as an explicit measurement blind spot so nobody reads the number as coverage.
 
-**Status:** not yet filed.
+**Status:** filed — https://github.com/makesensedigital/engineering-handbook/issues/56
 
 ---
 
@@ -123,7 +123,7 @@ An archive is the most likely form for exactly the material this rule exists to 
 **Suggested upstream fix.** Add `zip|rar|7z|tar|tgz` to both the workflow pattern and the template
 `.gitignore`.
 
-**Status:** not yet filed. Locally this is fix-now item F2 and the check extension is part of the
+**Status:** filed — https://github.com/makesensedigital/engineering-handbook/issues/58 Locally this is fix-now item F2 and the check extension is part of the
 fix.
 
 ---
@@ -165,7 +165,7 @@ three ratcheted checks in report-only mode automatically — the same conditiona
 already uses in the other direction when no baseline is present. The information is already there;
 only the workflow does not read it.
 
-**Status:** not yet filed. This is the one of the five worth filing first: the other four cost an
+**Status:** filed — https://github.com/makesensedigital/engineering-handbook/issues/53 This is the one of the five worth filing first: the other four cost an
 afternoon each, and this one quietly disables the mechanism the whole skill is built around.
 
 ---
@@ -199,4 +199,4 @@ sits below the floor. That keeps the floor as the published target, which is the
 "never weaken a threshold" rule is protecting, while giving an adopting repository somewhere to put
 the truth. Same idea as the count baseline, different comparison.
 
-**Status:** not yet filed.
+**Status:** filed — https://github.com/makesensedigital/engineering-handbook/issues/57
