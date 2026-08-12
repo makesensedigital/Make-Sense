@@ -311,7 +311,7 @@ jobs:
             echo "::error::The gate did not pass. Every failing check is listed in the two jobs above — fix them together rather than one per run."
             exit 1
           fi
-          echo "Gate passed. Publication happens only from this workflow, never from a branch (§26).""
+          echo "Gate passed. Publication happens only from this workflow, never from a branch (§26)."
 
   # ------------------------------------------------------------------ publication
   publish:
