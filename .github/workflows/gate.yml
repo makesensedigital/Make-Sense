@@ -200,6 +200,23 @@ jobs:
         if: ${{ !cancelled() }}
         run: node scripts/ratchet.mjs
 
+      - name: What a green run does and does not claim
+        # This repository adopted the standard after its code existed, so a green gate here means
+        # "nothing NEW, and nothing contract-sensitive outstanding" — NOT "compliant". A badge that
+        # can be misread as a compliance claim is worse than no badge, and the place to say so is
+        # the run itself rather than a document somebody would have to already be suspicious to
+        # open. Printed on every run, pass or fail.
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          echo 'Green means: nothing NEW was added, and nothing contract-sensitive is outstanding.'
+          echo 'Green does NOT mean compliant. Findings still carried, from .gate-baseline.json:'
+          echo
+          grep -E '^\s+"check' .gate-baseline.json || true
+          echo
+          echo 'When that list is empty, delete the three continue-on-error lines in this job.'
+          echo 'Full reading: docs/measurement-baseline.md'
+
       - name: No tracked secret or internal material (§4c)
         # The repository is the web root: a committed file is a published file. This is the last
         # line, not the mechanism — `.gitignore` is where the decision lives.
@@ -294,13 +311,7 @@ jobs:
             echo "::error::The gate did not pass. Every failing check is listed in the two jobs above — fix them together rather than one per run."
             exit 1
           fi
-          echo "Gate passed. Publication happens only from this workflow, never from a branch (§26)."
-          echo ""
-          echo "WHAT GREEN MEANS HERE, AND WHAT IT DOES NOT."
-          echo "This repository adopted the standard after its code existed. Green means: nothing NEW"
-          echo "was added, and nothing contract-sensitive is outstanding. It does NOT mean compliant."
-          echo "Findings still carried by the ratchet, from .gate-baseline.json:"
-          node -e 'const b=require("./.gate-baseline.json").recorded;const t=Object.values(b).reduce((a,c)=>a+c,0);for(const[k,v]of Object.entries(b))console.log("  "+String(v).padStart(3)+"  "+k);console.log("  ---");console.log("  "+String(t).padStart(3)+"  carried in total. When this reaches 0, delete the three");console.log("       continue-on-error lines in the checks job — see docs/measurement-baseline.md.")'"
+          echo "Gate passed. Publication happens only from this workflow, never from a branch (§26).""
 
   # ------------------------------------------------------------------ publication
   publish:
