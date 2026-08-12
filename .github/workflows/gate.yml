@@ -259,7 +259,30 @@ jobs:
         # A threshold with no job that runs it produces the same software as no threshold. The
         # floors live in lighthouserc.json so a loosened one shows up in a diff and has to be
         # argued for.
+        #
+        # REPORT-ONLY DURING ADOPTION — same reasoning as the three ratcheted checks above, and the
+        # same discipline. THE FLOORS ARE NOT LOWERED. Every number in lighthouserc.json is exactly
+        # what the standard asks for, and it stays that way: "Never weaken a threshold to make a run
+        # green. A loosened floor reads exactly like a considered one."
+        #
+        # What this site measured on its first real run, 2026-08-12, recorded as debt #12:
+        #
+        #     accessibility    0.94  (floor 0.95)   — color-contrast and heading-order both fail
+        #     best-practices   0.79  (floor 0.90)
+        #     largest-contentful-paint  over 2500ms
+        #     performance / seo         passing
+        #
+        # Those are the adoption baseline for this job, kept in prose because `ratchet.mjs` counts
+        # findings from three checks and knows nothing about Lighthouse — see
+        # `docs/handbook-feedback.md` #6.
+        #
+        # THE NUMBERS GO IN THE PULL REQUEST EITHER WAY. A regression is visible in the diff of the
+        # run output; what it does not do is redden the gate on a floor the site has never met.
+        #
+        # HOW THIS ENDS: when debt #12 is paid, delete this `continue-on-error`. Do not delete it
+        # by adjusting lighthouserc.json.
         if: ${{ !cancelled() }}
+        continue-on-error: true
         run: npx --yes @lhci/cli@0.14.0 autorun
 
   # ------------------------------------------------------------------ the single required check

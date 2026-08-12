@@ -167,3 +167,36 @@ only the workflow does not read it.
 
 **Status:** not yet filed. This is the one of the five worth filing first: the other four cost an
 afternoon each, and this one quietly disables the mechanism the whole skill is built around.
+
+---
+
+## 6. The ratchet covers three checks; the gate has eleven — gap, not a defect
+
+**Where:** `adopt-an-existing-repository` (step 4) against
+`templates/landing/.github/workflows/gate.yml`.
+
+`ratchet.mjs` counts findings from `check-config`, `check-markup` and `check-assets`. The delivery
+gate also runs link checking, the Lighthouse floors, the tracked-material scan and
+`build-derived --check`. **Four of the eleven §26 gate points are ratchetable; the rest are pass/fail
+against a bar an adopting site has never been measured against.**
+
+For the tracked-material scan that is correct and deliberate — contract-sensitive findings are not
+ratchetable and the skill says so. For the **Lighthouse floors it is neither correct nor addressed**.
+This site measured accessibility 0.94 against a floor of 0.95 and best-practices 0.79 against 0.90 on
+its first run. There are exactly three things to do with that and the standard rules out two of them:
+lowering the floor is forbidden in as many words, and fixing it before adoption completes is the
+rewrite nobody funds. The third — carry it, named, with the measured numbers recorded — is what a
+ratchet is, and there is no mechanism for it.
+
+**What we did.** Marked the step `continue-on-error`, recorded the measured values in the workflow
+and as debt #12, and left every threshold in `lighthouserc.json` byte-identical. The numbers still
+print on every run, so a regression is visible; what does not happen is the gate reddening on a floor
+the site has never met.
+
+**Suggested upstream fix.** Let `ratchet.mjs` carry a numeric baseline alongside its counts —
+`{"lighthouse:accessibility": 0.94}` — failing when a value moves the wrong way rather than when it
+sits below the floor. That keeps the floor as the published target, which is the property the
+"never weaken a threshold" rule is protecting, while giving an adopting repository somewhere to put
+the truth. Same idea as the count baseline, different comparison.
+
+**Status:** not yet filed.

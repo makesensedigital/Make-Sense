@@ -56,7 +56,15 @@ exists to catch, and the gate cannot see it. Recorded as debt #8.
 whether a provider identifier is origin-restricted, whether anybody owns the site, or whether a
 scheduled check exists. Each was assessed by hand and each is in a bucket below.
 
-**3 — The measurement history itself, which is the one that cannot be recovered.** The tag container
+**3 — Anything the external tools measure.** The three ratcheted checks run offline; the link
+checker and the Lighthouse floors run against a served copy and are not in `.gate-baseline.json` at
+all. Their first real-runner result arrived a day later and is recorded as debt #12: accessibility
+0.94 against a floor of 0.95, best-practices 0.79 against 0.90, largest-contentful-paint over
+2500 ms, with `color-contrast` and `heading-order` failing as specific audits. Links pass. The
+floors themselves were left untouched — see `handbook-feedback.md` #6 for why there was nowhere
+correct to put this.
+
+**4 — The measurement history itself, which is the one that cannot be recovered.** The tag container
 has been live for eight months with no measurement contract: no event names, no properties, no
 statement of the question any of it answers. §26 is explicit that this class of finding is not
 recoverable — instrumentation not present at launch is *absent data*, not late data. **The bucket
@@ -72,7 +80,7 @@ later.
 | Bucket | Where it lives | Count |
 |---|---|---|
 | **Fix now** — contract-sensitive and cheap; defects that were always defects | this file, §"Fix now" | 3 |
-| **Debt** — real, expensive, safe to carry, with a trigger and an owner | [`technical-debt.md`](technical-debt.md) | 11 |
+| **Debt** — real, expensive, safe to carry, with a trigger and an owner | [`technical-debt.md`](technical-debt.md) | 12 |
 | **Inapplicable** — the rule genuinely cannot apply here | [`inapplicable.md`](inapplicable.md) | 6 |
 | **Blocked on a decision** — complying needs a choice nobody has made | [`open-definitions.md`](open-definitions.md) | 3 |
 
