@@ -63,6 +63,48 @@ figure is a lower bound.
 this repository performs it. §26's rule holds without exception: *a DNS record never outlives the
 resource it names* — creating and destroying the record and the hosting resource are one operation.
 
+### The cutover runbook
+
+Current state, measured 2026-08-11: `makesense.digital` resolves to `200.58.111.96` /
+`2800:6c0:2::c:271` (DonWeb, Apache), and `www` is an alias of the apex.
+
+**The order is the safety.** Verification before assignment is not a preference — an unverified
+domain pointed at a hosting provider can be claimed by another account there, and the loss is the
+domain, not the page.
+
+1. **Verify the domain.** GitHub → organization `makesensedigital` → Settings → Pages →
+   *Verified and approved domains* → add `makesense.digital`. It issues a `TXT` record for
+   `_github-pages-challenge-makesensedigital`. Add it at the registrar and confirm. **Do this
+   first, and confirm it says verified before step 3.**
+2. **Merge the adoption pull request**, so `.github/workflows/gate.yml`, `CNAME` and `.nojekyll`
+   are on the default branch. Nothing publishes yet.
+3. **Enable Pages.** Repository → Settings → Pages → Source: **GitHub Actions**. The next push to
+   `main` runs the gate and, only if it passes, publishes. The live site is still Apache at this
+   point — Pages is serving the same content at its own URL, which is the moment to check it.
+4. **Cut DNS**, replacing the DonWeb records:
+
+   | Name | Type | Value |
+   |---|---|---|
+   | `@` | A | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
+   | `@` | AAAA | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
+   | `www` | CNAME | `makesensedigital.github.io` |
+
+   Remove the `A`/`AAAA` records pointing at `200.58.111.96` / `2800:6c0:2::c:271` in the same
+   operation. Leave `MX` and any mail records alone — this move does not touch mail.
+5. **Wait for the certificate, then tick *Enforce HTTPS*.** GitHub issues a Let's Encrypt
+   certificate once DNS resolves; there is a window of minutes to an hour where HTTPS fails. Do not
+   announce the move until this is green.
+6. **Decommission the DonWeb hosting resource** — and not before step 5. A DNS record must never
+   outlive the resource it names, and the reverse is just as true during a cutover.
+
+### What the cutover changes about fix-now item F3
+
+The trust seal advertises a **Sectigo certificate issued through DonWeb**. After step 5 the site is
+served under a Let's Encrypt certificate issued by GitHub, and that seal is no longer merely a
+prohibited script — **it is a false claim about the site's own certificate**. The hosting decision
+therefore settles the business half of open decision #1: the seal has to go, or be replaced with
+something that is true. It cannot stay as it is.
+
 ---
 
 ## 3. Assumed — nobody validated these
