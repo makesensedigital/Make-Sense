@@ -125,3 +125,45 @@ An archive is the most likely form for exactly the material this rule exists to 
 
 **Status:** not yet filed. Locally this is fix-now item F2 and the check extension is part of the
 fix.
+
+---
+
+## 5. The landing gate cannot ratchet as shipped — defect in the adoption path
+
+**Where:** `templates/landing/.github/workflows/gate.yml`, interacting with the
+`adopt-an-existing-repository` skill, step 4.
+
+**What happens.** The workflow runs `check-config`, `check-markup` and `check-assets` as ordinary
+steps, and each exits non-zero when it has findings. It also runs `ratchet.mjs`, whose entire
+purpose is to make the gate fail *only on what is new*.
+
+In a site built from the template the three checks pass, so nothing surfaces. In a repository that
+**adopts** the standard they do not pass and never will until the baseline reaches zero — so the
+`gate` job is red on every run from the first day, and the ratchet decides nothing. Both mechanisms
+are present and the stricter one wins, which makes the ratchet inert exactly where it was designed
+to be used.
+
+The skill is unambiguous about the intended behaviour:
+
+> Set the gate to ratchet, not to pass. **The gate fails on a violation that is new, not on one that
+> already existed.**
+
+And equally unambiguous about the cost of getting it wrong: *"A gate that fails on everything → red
+forever, switched off within a week."* As shipped, the adoption path produces precisely that.
+
+**What we did.** Marked those three steps `continue-on-error: true`, with the reasoning at the point
+of use. Nothing is silenced — every finding still prints in full on every run. What moves is the
+gating authority, to the ratchet step, which stays a hard failure.
+
+**What we deliberately did NOT make report-only**, because the skill forbids it: the ratchet itself,
+and the tracked-internal-material step. Contract-sensitive findings are not ratchetable — carrying
+one is not a slower fix, it is an open hole. Our gate is consequently red on day one, on a published
+`.ai` file, and that is the correct outcome rather than a problem to route around.
+
+**Suggested upstream fix.** Have the gate detect `.gate-baseline.json` and, when it exists, run the
+three ratcheted checks in report-only mode automatically — the same conditional shape `ratchet.mjs`
+already uses in the other direction when no baseline is present. The information is already there;
+only the workflow does not read it.
+
+**Status:** not yet filed. This is the one of the five worth filing first: the other four cost an
+afternoon each, and this one quietly disables the mechanism the whole skill is built around.

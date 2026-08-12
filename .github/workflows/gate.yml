@@ -122,8 +122,37 @@ jobs:
             sha256sum -c .github/handbook-scripts.sha256
           fi
 
+      # ---------------------------------------------------------------- REPORT-ONLY, DELIBERATELY
+      #
+      # The next three steps are `continue-on-error`. THIS IS THE RATCHET, not a suppression, and
+      # the distinction is the whole of step 4 of the `adopt-an-existing-repository` skill:
+      #
+      #   "Set the gate to ratchet, not to pass. THE GATE FAILS ON A VIOLATION THAT IS NEW, not on
+      #    one that already existed."
+      #
+      # This repository adopted the standard eight months after the site shipped, so these three
+      # checks report 21 findings that were not mistakes when they were written. Left as hard
+      # failures they would make the gate red on every run forever, which is how a gate gets
+      # switched off in a week — the exact failure the ratchet exists to prevent, arriving through
+      # the workflow rather than through the rules.
+      #
+      # NOTHING IS SILENCED. Every finding is printed in full on every run, which is the point: a
+      # lint's output is input to the next turn (§20). What moves is the GATING AUTHORITY, to the
+      # `Nothing new (ratchet)` step below, which IS a hard failure and rises the moment any count
+      # goes above the baseline.
+      #
+      # WHAT IS NOT REPORT-ONLY, and must never become so: the ratchet itself, and the tracked
+      # internal material step. Contract-sensitive findings are not ratchetable — carrying one is
+      # not a slower fix, it is an open hole. Those stay fix-now by definition, and a mechanism that
+      # quietly accepted them would have inverted the point of having one. This gate is therefore
+      # RED TODAY, on `Logos MK Sense/logo.ai`, and it is supposed to be.
+      #
+      # HOW THIS ENDS: when `.gate-baseline.json` reaches zero, delete these three
+      # `continue-on-error` lines. Until then, `git log -p .gate-baseline.json` is the record of
+      # this repository paying its adoption down.
       - name: One configuration module, no placeholders
         if: ${{ !cancelled() }}
+        continue-on-error: true
         run: node scripts/check-config.mjs
 
       - name: Business facts derive from one source
@@ -153,10 +182,12 @@ jobs:
 
       - name: Indexability and the mobile render rules (§26, §6c)
         if: ${{ !cancelled() }}
+        continue-on-error: true
         run: node scripts/check-markup.mjs
 
       - name: Byte budgets, orphans and third-party origins
         if: ${{ !cancelled() }}
+        continue-on-error: true
         run: node scripts/check-assets.mjs
 
       - name: Nothing new (ratchet)
