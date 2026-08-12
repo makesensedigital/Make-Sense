@@ -6,7 +6,8 @@
   "ci": {
     "collect": {
       "staticDistDir": ".",
-      "url": ["http://localhost/index.html", "http://localhost/privacy.html"],
+      "//url": "ADOPTION NOTE: the template collects index.html AND privacy.html. THIS SITE HAS NO PRIVACY PAGE — §26 requires one in every case, whatever was decided about tracking, and its absence is open decision #2. Left in the list it 404s, Lighthouse aborts with ERRORED_DOCUMENT_REQUEST, and the gate goes red for a reason that has nothing to do with the site's performance — which is the failure mode this file's own note warns about. NO THRESHOLD BELOW IS TOUCHED. Add the URL back in the same commit that adds the page.",
+      "url": ["http://localhost/index.html"],
       "numberOfRuns": 3,
       "settings": {
         "formFactor": "mobile",
