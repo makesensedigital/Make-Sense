@@ -95,7 +95,7 @@ security first because "later" means something different in this bucket.
 |---|---|---|---|
 | F1 | `Logos MK Sense/logo.ai` — a 434 KB Illustrator source is tracked, and in this architecture tracked means **published**. | `GET /Logos%20MK%20Sense/logo.ai` → **200, 444261 bytes** | **untracked 2026-08-12** · history open |
 | F2 | `Logos MK Sense.zip` — 583 KB of brand archive, same. **No check caught this**: the gate's pattern covered `.ai/.psd/.sketch/.fig` but not an archive containing them. | `GET /Logos%20MK%20Sense.zip` → **200, 596597 bytes** | **untracked 2026-08-12**, and the check extended so it cannot recur · history open |
-| F3 | A third-party script is injected with `document.write` from `trust-provider.com`, unpinned, with no subresource integrity and no `defer`. §26 prohibits document-writing script injection and requires third parties to enter through the tag container. It executes with full page privileges, and on plain HTTP it resolves to `http://www.trustlogo.com/...`. | `index.html:693-696`, `index.html:1031-1032` | awaiting owner — removing it removes a visible trust seal, which is a business call |
+| F3 | A third-party script is injected with `document.write` from `trust-provider.com`, unpinned, with no subresource integrity and no `defer`. §26 prohibits document-writing script injection and requires third parties to enter through the tag container. It executed with full page privileges, and on plain HTTP it resolved to `http://www.trustlogo.com/...`. | `index.html:693-696`, `index.html:1031-1032` | **removed 2026-08-12** — see open decision #1, which the hosting choice closed |
 
 **F1 and F2 are half fixed, and the half that remains is the one that matters most now.**
 
