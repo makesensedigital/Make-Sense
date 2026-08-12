@@ -295,6 +295,12 @@ jobs:
             exit 1
           fi
           echo "Gate passed. Publication happens only from this workflow, never from a branch (§26)."
+          echo ""
+          echo "WHAT GREEN MEANS HERE, AND WHAT IT DOES NOT."
+          echo "This repository adopted the standard after its code existed. Green means: nothing NEW"
+          echo "was added, and nothing contract-sensitive is outstanding. It does NOT mean compliant."
+          echo "Findings still carried by the ratchet, from .gate-baseline.json:"
+          node -e 'const b=require("./.gate-baseline.json").recorded;const t=Object.values(b).reduce((a,c)=>a+c,0);for(const[k,v]of Object.entries(b))console.log("  "+String(v).padStart(3)+"  "+k);console.log("  ---");console.log("  "+String(t).padStart(3)+"  carried in total. When this reaches 0, delete the three");console.log("       continue-on-error lines in the checks job — see docs/measurement-baseline.md.")'"
 
   # ------------------------------------------------------------------ publication
   publish:

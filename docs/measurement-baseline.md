@@ -135,6 +135,34 @@ blanket suppressions is not, whatever its badge says. There are **two** deferral
 repository's gate, both named, both scoped to a single check, both self-removing, and both owned by
 a numbered debt entry: `build-derived --check` (debt #4) and `test-gate` (debt #5).
 
+## Where it stands, 2026-08-12
+
+One day after the baseline was taken. **21 → 6**, and every one of the six is one of two things.
+
+| Carried | What it is | Bucket |
+|---|---|---|
+| `check-config \| index.html` × 3 | The container id, the mailbox and the scheduling link are still literals in the markup. `config.js` is their destination, not yet their source. | Debt #1 |
+| `check-config \| config.js` × 3 | The three unanswered consent fields: jurisdiction, who decided, on what date. | Open decision #2 — **not mine to close** |
+
+The second row is the more important one, and it is the reason this number will not reach zero by
+engineering. Those three fields are a decision about which jurisdiction's law the site answers to.
+Filling them in to quiet the gate would be the exact failure this whole procedure exists to prevent:
+a green check standing in for a decision nobody took.
+
+**The gate is green, and it says so out loud on every run** — it prints the carried findings and the
+sentence *"Green means nothing NEW was added and nothing contract-sensitive is outstanding. It does
+NOT mean compliant."* A badge that cannot be read as a compliance claim is the only kind worth
+having on a repository in this state.
+
+Fixed the same day, each lowering the baseline in the commit that did it: both published internal
+files untracked, the `document.write` trust seal removed, the stylesheet extracted (which made three
+render rules measurable for the first time and immediately caught a `100vh`), the fonts self-hosted,
+both failing contrast pairs corrected, a skip link and a `main` landmark added, the heading outline
+repaired, canonical and social metadata fixed, a `404.html` published, and the footer's eight-month
+contradiction with the brand corrected.
+
+Every Lighthouse floor now passes and **not one threshold was moved to get there**.
+
 ## Re-measuring
 
 ```bash
