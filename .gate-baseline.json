@@ -1,0 +1,8 @@
+{
+  "//": "Violations present when this repository adopted the standard. Existing entries are carried; anything NEW fails the gate. Lower an entry in the same commit that fixes it — never raise one.",
+  "//how": "Keyed by check and file. Run `node scripts/ratchet.mjs --update` after fixing something, in the same commit as the fix.",
+  "recorded": {
+    "check-config|index.html": 3,
+    "check-config|config.js": 3
+  }
+}

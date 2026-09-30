@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Not a page anybody should find in a search result: it is the response to a URL that does
+         not exist. §26 — a page not meant to be found declares so and stays out of the sitemap. -->
+    <meta name="robots" content="noindex, follow">
+    <title>Página no encontrada | Make Sense Digital</title>
+    <link rel="stylesheet" href="assets/fonts.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="icon" href="assets/logo_monocromo_oscuro.png" type="image/png">
+    <style>
+        .notfound {
+            min-height: 70dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .notfound h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 20px; }
+        .notfound p { color: var(--muted-grey); margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <header>
+        <div class="container nav-container">
+            <a href="/" aria-label="Make Sense Digital">
+                <img src="assets/logo_full.png" alt="Logo de Make Sense Digital" class="logo-img" width="180" height="52">
+            </a>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="notfound">
+            <div class="container">
+                <h1>Esta página no existe</h1>
+                <p>El enlace que seguiste no lleva a ninguna parte. Puede que la dirección haya cambiado o que se haya escrito mal.</p>
+                <a href="/" class="btn">Volver al inicio</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Make Sense Digital. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

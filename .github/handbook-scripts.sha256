@@ -1,0 +1,33 @@
+# The delivery gate's checks, pinned against makesensedigital/engineering-handbook@v3.7.1.
+#
+# WHY THIS FILE EXISTS. `test-gate.mjs` — the gate's own two-direction test — cannot run in a
+# repository that adopted the standard after its code existed: it builds its known-good fixture by
+# copying the repository root and editing the TEMPLATE's placeholders out of it
+# (engineering-handbook#55). So the claim that these checks are known to work rests on them matching
+# the release where that test passes, and this file makes the gate verify it on every run.
+#
+# FIVE OF THE SEVEN ARE BYTE-IDENTICAL TO v3.7.1. Two are not, and saying so is the whole point:
+#
+#   lib.mjs — ONE TOKEN added to `walk()`'s skip list: `.gate-baseline.json`. Without it the
+#   ratchet's own baseline is read as site content, its `check|file` keys are read as file
+#   references, and every run manufactures a finding whose next baseline key is longer. It does not
+#   converge.                                                         engineering-handbook#54
+#   upstream digest: db440c871c4c34a92903d698f611e5a3785e8adfbae604f7955712c2e6fd39d6
+#
+#   check-assets.mjs — ONE TOKEN added to the reference scan's extension list: `css`. A stylesheet
+#   is the most common place to reference a font or a background image, and it was the one file type
+#   the scan did not read: ten self-hosted woff2 files, correctly referenced, all reported as
+#   orphans — while §26 actively recommends self-hosting.            engineering-handbook#59
+#   upstream digest: ed724bf540b0bd561cceb9e133d5333b1a2980948dbb7d06dad934170cfbdb3d
+#
+# Both were found by running the gate rather than by reading it. Debt #5 carries the consequence:
+# neither change is covered by a test, and any FURTHER edit fails this check by design. The fix at
+# that point is to vendor the pristine template into `scripts/fixtures/landing/` and make
+# `test-gate.mjs` run for real — not to re-record the digest.
+beb63aa3407ca0a8ed8f5ad27f2b16e7a70326806965e37d8f92906e6ae79445 *scripts/build-derived.mjs
+07a9d7ed2c294591228975aa6d95dab1811b229814baa1334568a3b11cfc5d7b *scripts/check-assets.mjs
+17da63bf9c430ea9b00557fe4e63297a93f98a81165058e78056ac18a9b54e56 *scripts/check-config.mjs
+03120c775a75a5f9d3a347fc7190af8cfa3191728faf5aafaba7e0fe18c0b25c *scripts/check-markup.mjs
+77d8499bdca3eff067b3a6517a2dfc4316bc899f503718db76565726359f8e05 *scripts/lib.mjs
+08e893790b877dd5e0cc6028dbfa0ed254e484e59c972c359543db8ee8fcb045 *scripts/ratchet.mjs
+b40723d0739348453872dba108242f4990868f24e48e0415b5234521adf3fb43 *scripts/test-gate.mjs

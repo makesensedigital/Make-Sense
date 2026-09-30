@@ -1,0 +1,45 @@
+# Handbook §26 — THE REPOSITORY IS THE WEB ROOT.
+#
+# This file is doing ACCESS CONTROL, not housekeeping. Every path below would otherwise be served
+# at a URL the moment it is committed, because the deploy step is copying files.
+#
+# Deleting a file later does not unpublish it: it stays in edge caches and in search indexes, and
+# where the repository is readable it stays in history. The remediation for an accidental commit is
+# rewriting history and rotating whatever was exposed — not a deletion commit.
+
+# Internal brand and design material — never published
+Branding/
+*.ai
+*.psd
+*.sketch
+*.fig
+
+# Archives. LOCAL ADDITION, not in templates/landing@v3.7.1 — reported as
+# engineering-handbook#58. An archive is the most likely form for exactly the material the block
+# above exists to keep out, because "send me the logos" produces a zip and somebody commits it next
+# to the folder it came from. That is precisely what happened here: `Logos MK Sense.zip`, 583 KB,
+# was downloadable at its URL for eight months while the `.ai` beside it was the one the pattern
+# caught.
+*.zip
+*.rar
+*.7z
+*.tar
+*.tgz
+*.tar.gz
+
+# Working versions and client material
+drafts/
+client/
+*.docx
+*.xlsx
+
+# Local
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+.env
+.env.*
+
+# NOT ignored, on purpose: .gate-baseline.json is committed. It is the record of what this
+# repository owed on the day it adopted the standard, and the ratchet compares against it.
