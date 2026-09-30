@@ -1,0 +1,27 @@
+# Make Sense Digital
+
+> Consultoría boutique en tecnología, dirección técnica senior (Fractional CTO) y auditoría de software.
+
+Make Sense Digital es una firma de consultoría boutique especializada en ingeniería y estrategia digital. Ayudamos a directores de negocio, fundadores y líderes de producto a tomar decisiones tecnológicas seguras, auditar proveedores de software, recuperar proyectos en crisis y diseñar arquitecturas de producto escalables.
+
+## Qué hacemos (Servicios Especializados)
+
+- **Architecture & MVP Blueprint**: De la idea de negocio a una arquitectura técnica sólida y ejecutable. Evaluamos factibilidad, infraestructura cloud y stack para evitar costos innecesarios, acotando el alcance mínimo viable (MoSCoW).
+- **Fractional CTO & Delivery Governance**: Dirección tecnológica senior bajo demanda para liderar la estrategia técnica, gobernar equipos de desarrollo (internos o agencias externas), implementar CI/CD y asegurar entregas predecibles en tiempo y presupuesto.
+- **Project Recovery & Tech Audit**: Intervención y rescate de emergencia para proyectos tecnológicos estancados, con sobrecostos, deuda técnica crítica o fricción de delivery con software factories. Auditoría forense de código y estabilización en semanas.
+- **Vendor & Factory Auditing**: Supervisión y auditoría técnica independiente de fábricas de software, agencias y contratistas externos. Validación de estimaciones de horas, calidad de código y cumplimiento de contratos para proteger el presupuesto.
+- **Discovery Session**: Sesión de diagnóstico inicial estructurada de 45 a 60 minutos sin costo para analizar la situación técnica actual y definir el plan de acción preliminar.
+
+## Enfoque y Diferenciales
+
+- **Seniority Real**: Profesionales full-time con más de 15 años de experiencia técnica y directiva. Sin perfiles junior ni curvas de aprendizaje a costo del cliente.
+- **Independencia Total de Proveedores**: 0% de comisión o sesgo con fábricas de software; velamos exclusivamente por los intereses de negocio del cliente.
+- **Enfoque Pragmático**: Sin la burocracia ni el overhead de las grandes consultoras, orientados a la certidumbre técnica y a resultados de negocio medibles.
+
+## Contacto
+
+- Web: https://makesense.digital/
+- Email: contacto@makesense.digital
+- LinkedIn: https://www.linkedin.com/company/make-sense-digital/
+- Agendamiento: https://calendly.com/juan-torresel?hide_landing_page_details=1&hide_gdpr_banner=1
+- Modalidad: Remoto Global (América Latina, Norteamérica, Europa)

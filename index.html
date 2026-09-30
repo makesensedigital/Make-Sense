@@ -29,6 +29,110 @@
     <link rel="preload" as="font" type="font/woff2" href="assets/fonts/open-sans-400-latin.woff2" crossorigin>
     
     <link rel="stylesheet" href="styles.css?v=2">
+    <!-- Schema.org JSON-LD Structured Data for LLMs and Search Engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://makesense.digital/#organization",
+          "name": "Make Sense Digital",
+          "url": "https://makesense.digital/",
+          "logo": "https://makesense.digital/assets/logo_full.png",
+          "image": "https://makesense.digital/assets/logo_full.png",
+          "description": "Consultoría boutique en tecnología y estrategia digital. Brindamos dirección técnica (Fractional CTO), auditoría de software factories, rescate de proyectos críticos y arquitectura de MVP con rigor senior.",
+          "email": "contacto@makesense.digital",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "AR"
+          },
+          "areaServed": [
+            { "@type": "Country", "name": "Argentina" },
+            { "@type": "AdministrativeArea", "name": "Latinoamérica" },
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "Spain" }
+          ],
+          "sameAs": [
+            "https://www.linkedin.com/company/make-sense-digital/"
+          ],
+          "makesOffer": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Architecture & MVP Blueprint",
+                "description": "De la idea de negocio a una arquitectura técnica sólida y ejecutable. Evaluamos factibilidad, infraestructura cloud y stack para evitar costos innecesarios."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Fractional CTO & Delivery Governance",
+                "description": "Dirección tecnológica senior bajo demanda para liderar tu estrategia y coordinar a los equipos de desarrollo (internos o agencias), asegurando buenas prácticas y entregas en tiempo."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Project Recovery & Tech Audit",
+                "description": "Rescate e intervención de proyectos tecnológicos estancados, con desvíos presupuestarios, deuda técnica crítica o bloqueos de entrega. Diagnóstico forense y estabilización inmediata."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Vendor & Factory Auditing",
+                "description": "Auditoría y supervisión técnica independiente de proveedores de desarrollo, software factories y contratistas externos para proteger presupuesto y validar calidad."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Discovery Session",
+                "description": "Sesión estructurada de diagnóstico de 45 a 60 minutos sin costo para analizar desafíos tecnológicos y definir la hoja de ruta de acción."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://makesense.digital/#faqs",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Tengo un proyecto trabado con un proveedor o agencia y no avanza.",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Realizamos una auditoría forense de entrega y código (Project Recovery) para transparentar el estado real, identificar cuellos de botella y ejecutar un plan de estabilización inmediato."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Necesitamos dirección técnica senior pero no justificamos un CTO a tiempo completo.",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Nuestro servicio de Fractional CTO te brinda liderazgo tecnológico estratégico, gobierno de proveedores y toma de decisiones de arquitectura con la flexibilidad que tu etapa requiere."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Queremos lanzar un nuevo producto y no sabemos qué arquitectura o presupuesto necesitamos.",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Diseñamos un Architecture & MVP Blueprint para validar factibilidad técnica, definir el stack idóneo y acotar el alcance mínimo para llegar al mercado rápido y con costos bajo control."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
 </head>
 <body>
     <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -183,7 +287,7 @@
                     <h2 data-i18n="cta_banner_title">Ponemos orden en tus decisiones tecnológicas</h2>
                     <p data-i18n="cta_banner_copy">Coordinemos una sesión de descubrimiento para analizar tu stack, evaluar riesgos de delivery o auditar el estado de tu iniciativa antes de comprometer más recursos.</p>
                 </div>
-                <a class="btn" href="https://calendly.com/juan-torresel?hide_landing_page_details=1&hide_gdpr_banner=1" target="_blank" rel="noopener" data-i18n="cta_banner_button">Reservar 30'</a>
+                <a class="btn" href="https://calendly.com/juan-torresel?hide_landing_page_details=1&hide_gdpr_banner=1" target="_blank" rel="noopener" data-i18n="cta_banner_button">Reservar Diagnóstico</a>
             </div>
         </div>
     </section>
@@ -231,20 +335,20 @@
         <div class="container">
             <h2 class="reveal" data-i18n="contact_title">Contacto</h2>
             <div class="contact-container">
-                <a href="https://www.linkedin.com/company/make-sense-digital/" target="_blank" class="contact-card">
+                <a href="https://www.linkedin.com/company/make-sense-digital/" target="_blank" rel="noopener" class="contact-card">
                     <span class="contact-label" data-i18n="lbl_linkedin">LinkedIn</span>
                     <span class="contact-value">Make Sense Digital</span>
                 </a>
 
-                <a href="mailto:contacto@makesense.digital" class="contact-card">
+                <a href="mailto:contacto@makesense.digital?subject=Consulta%20Make%20Sense%20-%20Diagn%C3%B3stico%20Tecnol%C3%B3gico" class="contact-card">
                     <span class="contact-label" data-i18n="lbl_email">Email</span>
                     <span class="contact-value">contacto@makesense.digital</span>
                 </a>
 
-                <a href="https://instagram.com/makesense.digital" target="_blank" class="contact-card">
-                    <span class="contact-label" data-i18n="lbl_social">Instagram</span>
-                    <span class="contact-value">@makesense.digital</span>
-                </a>
+                <div class="contact-card">
+                    <span class="contact-label" data-i18n="lbl_modalidad">Modalidad</span>
+                    <span class="contact-value" data-i18n="lbl_modalidad_val">Remoto Global</span>
+                </div>
             </div>
         </div>
     </section>
@@ -310,7 +414,7 @@
                 cta_tag: "Resolución y Certeza",
                 cta_banner_title: "Ponemos orden en tus decisiones tecnológicas",
                 cta_banner_copy: "Coordinemos una sesión de descubrimiento para analizar tu stack, evaluar riesgos de delivery o auditar el estado de tu iniciativa antes de comprometer más recursos.",
-                cta_banner_button: "Reservar 30'",
+                cta_banner_button: "Reservar Diagnóstico",
                 serv1_title: "Architecture & MVP Blueprint", serv1_p1: "De la idea de negocio a una arquitectura técnica sólida y ejecutable. Evaluamos factibilidad, infraestructura cloud y stack para evitar costos innecesarios.", serv1_p2: "Definimos el alcance exacto del MVP y la hoja de ruta técnica, optimizando tiempos de lanzamiento y asegurando bases escalables.",
                 serv2_title: "Fractional CTO & Delivery Governance", serv2_p1: "Dirección tecnológica senior bajo demanda para liderar tu estrategia y coordinar a los equipos de desarrollo (internos o agencias).", serv2_p2: "Garantizamos buenas prácticas de ingeniería, revisiones de arquitectura, CI/CD y entregas en tiempo, protegiendo tu presupuesto.",
                 serv3_title: "Project Recovery & Tech Audit", serv3_p1: "Rescate e intervención de proyectos tecnológicos estancados, con desvíos presupuestarios, deuda técnica crítica o bloqueos de entrega.", serv3_p2: "Diagnosticamos el estado real del código, estabilizamos la arquitectura y ejecutamos un plan de recuperación inmediato para retomar el control.",
@@ -321,7 +425,7 @@
                 faq2_q: "\"Necesitamos dirección técnica senior pero no justificamos un CTO a tiempo completo.\"", faq2_a: "Nuestro servicio de Fractional CTO te brinda liderazgo tecnológico estratégico, gobierno de proveedores y toma de decisiones de arquitectura con la flexibilidad que tu etapa requiere.",
                 faq3_q: "\"Queremos lanzar un nuevo producto y no sabemos qué arquitectura o presupuesto necesitamos.\"", faq3_a: "Diseñamos un Architecture & MVP Blueprint para validar factibilidad técnica, definir el stack idóneo y acotar el alcance mínimo para llegar al mercado rápido y con costos bajo control.",
                 contact_title: "Contacto",
-                lbl_linkedin: "LinkedIn", lbl_email: "Email", lbl_social: "Instagram"
+                lbl_linkedin: "LinkedIn", lbl_email: "Email", lbl_modalidad: "Modalidad", lbl_modalidad_val: "Remoto Global"
             },
             en: {
                 nav_home: "Home", nav_services: "Services", nav_faqs: "FAQs", nav_contact: "Contact",
@@ -343,7 +447,7 @@
                 cta_tag: "Certainty & Resolution",
                 cta_banner_title: "Bringing Order to Your Technology Decisions",
                 cta_banner_copy: "Let's schedule a discovery session to review your stack, evaluate delivery risks, or audit your initiative before committing further capital.",
-                cta_banner_button: "Book a 30' slot",
+                cta_banner_button: "Book Discovery Session",
                 serv1_title: "Architecture & MVP Blueprint", serv1_p1: "From business idea to a robust, executable technical architecture. We assess feasibility, cloud infrastructure, and stack to prevent unnecessary spend.", serv1_p2: "We define the exact MVP scope and technical roadmap, accelerating time-to-market while building on a scalable foundation.",
                 serv2_title: "Fractional CTO & Delivery Governance", serv2_p1: "On-demand senior tech leadership to guide strategy and govern development teams (internal or external agencies).", serv2_p2: "We enforce engineering best practices, architectural reviews, CI/CD pipelines, and on-time delivery while guarding your budget.",
                 serv3_title: "Project Recovery & Tech Audit", serv3_p1: "Targeted rescue and intervention for stalled projects facing budget overruns, critical technical debt, or delivery bottlenecks.", serv3_p2: "We uncover the real state of the codebase, stabilize architecture, and execute an immediate recovery plan to regain control.",
@@ -354,7 +458,7 @@
                 faq2_q: "\"We need senior tech leadership but cannot justify a full-time in-house CTO.\"", faq2_a: "Our Fractional CTO service provides strategic technical direction, vendor governance, and high-level architectural decisions tailored to your exact business stage.",
                 faq3_q: "\"We want to launch a new product and don't know which architecture or budget to expect.\"", faq3_a: "We design an Architecture & MVP Blueprint to evaluate technical feasibility, select the right stack, and narrow down the scope to reach market quickly with costs under control.",
                 contact_title: "Contact",
-                lbl_linkedin: "LinkedIn", lbl_email: "Email", lbl_social: "Instagram"
+                lbl_linkedin: "LinkedIn", lbl_email: "Email", lbl_modalidad: "Engagement", lbl_modalidad_val: "Worldwide Remote"
             }
         };
 
